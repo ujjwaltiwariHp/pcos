@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { LayoutDashboard, ClipboardCheck, FileText, User, LogOut, HeartPulse, ShieldCheck, Users, BarChart3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { API_URL } from "@/lib/api";
 
 const userNavItems = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },

@@ -56,7 +56,7 @@ router.get('/users', async (req, res) => {
 
 router.patch('/users/:id', logAudit('UPDATE', 'USER'), async (req, res) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     const { role, name, email } = req.body;
     
     const [updatedUser] = await db.update(users)
@@ -82,7 +82,7 @@ router.patch('/users/:id', logAudit('UPDATE', 'USER'), async (req, res) => {
 
 router.delete('/users/:id', logAudit('DELETE', 'USER'), async (req, res) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     
     const [deletedUser] = await db.delete(users)
       .where(eq(users.id, id))
@@ -113,7 +113,7 @@ router.get('/assessments', async (req, res) => {
 
 router.delete('/assessments/:id', logAudit('DELETE', 'ASSESSMENT'), async (req, res) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     
     const [deletedAssessment] = await db.delete(assessments)
       .where(eq(assessments.id, id))
