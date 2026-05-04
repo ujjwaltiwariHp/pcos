@@ -74,8 +74,18 @@ export function RegisterForm() {
       }
 
       toast.success('Registration successful');
-      window.location.href = '/dashboard';
+      const redirectPath = '/dashboard';
+      
+      router.push(redirectPath);
+      router.refresh();
+
+      setTimeout(() => {
+        if (window.location.pathname !== redirectPath) {
+          window.location.href = redirectPath;
+        }
+      }, 1000);
     } catch (error: any) {
+      console.error('Registration error:', error);
       toast.error(error.message);
     } finally {
       setIsLoading(false);

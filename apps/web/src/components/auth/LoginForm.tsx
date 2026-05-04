@@ -60,14 +60,23 @@ export function LoginForm() {
       }
 
       toast.success('Login successful');
+      console.log('Login success, user role:', data.user.role);
       
-      // Use full refresh to ensure all layouts re-render with auth state
-      if (data.user.role === 'admin') {
-        window.location.href = '/admin/dashboard';
-      } else {
-        window.location.href = '/dashboard';
-      }
+      const redirectPath = data.user.role === 'admin' ? '/admin/dashboard' : '/dashboard';
+      console.log('Redirecting to:', redirectPath);
+      
+      // Use router.push first, then fallback to window.location if it takes too long
+      router.push(redirectPath);
+      router.refresh();
+      
+      setTimeout(() => {
+        if (window.location.pathname !== redirectPath) {
+          console.log('Manual redirect fallback triggered');
+          window.location.href = redirectPath;
+        }
+      }, 1000);
     } catch (error: any) {
+      console.error('Login error:', error);
       toast.error(error.message);
     } finally {
       setIsLoading(false);

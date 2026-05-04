@@ -46,7 +46,7 @@ export default function UserLayout({
       </aside>
 
       {/* Main Content */}
-      <div className="flex flex-col flex-1 overflow-hidden">
+      <div className="flex flex-col flex-1 overflow-hidden relative z-10">
         <Navbar onMenuClick={() => setIsSidebarOpen(true)} />
         <main className="flex-1 overflow-y-auto p-4 md:p-8 scroll-smooth">
           <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">

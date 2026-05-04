@@ -108,6 +108,14 @@
     @apply bg-background text-foreground transition-colors duration-300;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
+  button, 
+  [role="button"],
+  [data-state],
+  a,
+  tr[onClick],
+  .cursor-pointer {
+    @apply cursor-pointer;
+  }
 }
 
 @layer utilities {

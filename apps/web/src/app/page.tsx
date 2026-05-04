@@ -33,7 +33,7 @@ export default async function LandingPage() {
 
       {/* Navigation */}
       <nav className="relative z-50 flex items-center justify-between px-8 py-10 max-w-7xl mx-auto">
-        <div className="flex items-center gap-3 group cursor-pointer">
+        <div className="flex items-center gap-3 group">
           <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center shadow-2xl shadow-primary/40 group-hover:rotate-12 transition-transform duration-500">
             <HeartPulse className="text-primary-foreground w-7 h-7" />
           </div>
@@ -44,7 +44,7 @@ export default async function LandingPage() {
         </div>
         
         <div className="hidden lg:flex items-center gap-10">
-          {["Features", "Technology", "Pricing", "Support"].map((item) => (
+          {["Features", "Technology", "Support"].map((item) => (
             <Link 
               key={item} 
               href={`#${item.toLowerCase()}`} 
@@ -101,9 +101,6 @@ export default async function LandingPage() {
               Start Your Scan <ChevronRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
             </Button>
           </Link>
-          <Button variant="outline" size="lg" className="rounded-[2.5rem] px-12 h-20 text-xl font-black border-white/10 hover:bg-white/5 gap-4 group transition-all">
-             Case Studies <ArrowRight className="w-6 h-6 text-primary group-hover:rotate-[-45deg] transition-transform" />
-          </Button>
         </div>
 
         {/* Premium Dashboard Preview */}
@@ -113,9 +110,9 @@ export default async function LandingPage() {
              <div className="w-full aspect-[16/9] bg-[#0A0D14] rounded-[2rem] border border-white/5 relative overflow-hidden flex flex-col">
                 <div className="p-6 border-b border-white/5 flex items-center justify-between">
                    <div className="flex gap-2">
-                     <div className="w-3 h-3 rounded-full bg-red-500/30" />
-                     <div className="w-3 h-3 rounded-full bg-yellow-500/30" />
-                     <div className="w-3 h-3 rounded-full bg-green-500/30" />
+                      <div className="w-3 h-3 rounded-full bg-red-500/30" />
+                      <div className="w-3 h-3 rounded-full bg-yellow-500/30" />
+                      <div className="w-3 h-3 rounded-full bg-green-500/30" />
                    </div>
                    <div className="h-4 w-40 bg-white/5 rounded-full" />
                 </div>
@@ -147,9 +144,6 @@ export default async function LandingPage() {
              <h4 className="text-xs font-black uppercase tracking-[0.4em] text-primary">Core Architecture</h4>
              <h2 className="text-5xl md:text-7xl font-black tracking-tight leading-[0.95]">Health monitoring <br /> reinvented with <span className="text-muted-foreground/40">Pure AI.</span></h2>
           </div>
-          <p className="text-muted-foreground text-xl font-medium max-w-md leading-relaxed mb-4">
-            We've built a comprehensive ecosystem designed to detect hormonal imbalances with precision and care.
-          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
@@ -189,25 +183,6 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="relative z-10 py-32 border-y border-white/5 bg-white/2">
-        <div className="max-w-7xl mx-auto px-6">
-           <div className="grid grid-cols-2 lg:grid-cols-4 gap-16">
-              {[
-                { label: "AI Confidence", value: "99.2%" },
-                { label: "Scans/Month", value: "25K+" },
-                { label: "Data points", value: "500M+" },
-                { label: "Success Rate", value: "100%" },
-              ].map((stat, i) => (
-                <div key={i} className="space-y-4 text-center lg:text-left">
-                  <h4 className="text-6xl font-black tracking-tighter text-white">{stat.value}</h4>
-                  <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">{stat.label}</p>
-                </div>
-              ))}
-           </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className="relative z-10 py-60 px-6">
          <div className="max-w-5xl mx-auto bg-primary rounded-[4rem] p-16 md:p-32 text-center shadow-2xl shadow-primary/20 relative overflow-hidden group">
@@ -240,11 +215,6 @@ export default async function LandingPage() {
               <p className="text-muted-foreground text-lg leading-relaxed font-medium max-w-md">
                 Empowering individuals with clinical-grade health insights through advanced machine learning technology.
               </p>
-              <div className="flex gap-6">
-                {["Twitter", "LinkedIn", "Instagram", "Github"].map(social => (
-                  <Link key={social} href="#" className="text-xs font-black uppercase tracking-widest hover:text-primary transition-colors">{social}</Link>
-                ))}
-              </div>
            </div>
            
            <div className="lg:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-12">
@@ -253,7 +223,6 @@ export default async function LandingPage() {
                  <ul className="space-y-4 text-muted-foreground font-medium text-sm">
                    <li><Link href="#" className="hover:text-primary transition-colors">Neural Engine</Link></li>
                    <li><Link href="#" className="hover:text-primary transition-colors">Clinical Data</Link></li>
-                   <li><Link href="#" className="hover:text-primary transition-colors">API Docs</Link></li>
                    <li><Link href="#" className="hover:text-primary transition-colors">Security</Link></li>
                  </ul>
               </div>
@@ -261,17 +230,8 @@ export default async function LandingPage() {
                  <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-white">Resources</h4>
                  <ul className="space-y-4 text-muted-foreground font-medium text-sm">
                    <li><Link href="#" className="hover:text-primary transition-colors">Health Blog</Link></li>
-                   <li><Link href="#" className="hover:text-primary transition-colors">Research</Link></li>
                    <li><Link href="#" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
-                   <li><Link href="#" className="hover:text-primary transition-colors">Terms of Service</Link></li>
                  </ul>
-              </div>
-              <div className="space-y-8 col-span-2 md:col-span-1">
-                 <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-white">Subscribe</h4>
-                 <div className="flex gap-2">
-                    <input type="email" placeholder="Email" className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 w-full text-xs" />
-                    <Button size="icon" className="rounded-xl flex-shrink-0"><ArrowRight className="w-4 h-4" /></Button>
-                 </div>
               </div>
            </div>
         </div>

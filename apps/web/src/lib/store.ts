@@ -44,19 +44,21 @@ const initialState = {
 };
 
 export const useAssessmentStore = create<AssessmentState>()(
-  persist(
+  (persist(
     (set) => ({
       ...initialState,
-      setStep: (step) => set({ step }),
-      setPersonalData: (data) => set((state) => ({ personalData: { ...state.personalData, ...data } })),
-      setSymptomsData: (data) => set({ symptomsData: data }),
-      setHormonalData: (data) => set({ hormonalData: data }),
-      setLifestyleData: (data) => set((state) => ({ lifestyleData: { ...state.lifestyleData, ...data } })),
+      setStep: (step: number) => set({ step }),
+      setPersonalData: (data: Partial<AssessmentState['personalData']>) => 
+        set((state: any) => ({ personalData: { ...state.personalData, ...data } })),
+      setSymptomsData: (data: Record<string, boolean>) => set({ symptomsData: data }),
+      setHormonalData: (data: Record<string, string | number>) => set({ hormonalData: data }),
+      setLifestyleData: (data: Partial<AssessmentState['lifestyleData']>) => 
+        set((state: any) => ({ lifestyleData: { ...state.lifestyleData, ...data } })),
       reset: () => set(initialState),
     }),
     {
       name: 'pcos-assessment-storage',
       storage: createJSONStorage(() => localStorage),
     }
-  )
+  ) as any)
 );
