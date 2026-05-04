@@ -5,8 +5,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { LayoutDashboard, ClipboardCheck, FileText, User, LogOut, HeartPulse, ShieldCheck, Users, BarChart3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { API_URL } from "@/lib/api";
+import { API_URL, fetchApi } from "@/lib/api";
 import { toast } from "sonner";
+import { useEffect, useState } from "react";
 
 const userNavItems = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -25,6 +26,14 @@ const adminNavItems = [
 export function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
+  const [userRole, setUserRole] = useState<string | null>(null);
+  
+  useEffect(() => {
+    fetchApi('/auth/me')
+      .then(data => setUserRole(data.user?.role))
+      .catch(() => setUserRole('user'));
+  }, []);
+
   const isAdmin = pathname.startsWith("/admin");
   const navItems = isAdmin ? adminNavItems : userNavItems;
 
@@ -83,14 +92,14 @@ export function Sidebar() {
                Switch to User View
             </Button>
           </Link>
-        ) : (
+        ) : userRole === 'admin' ? (
           <Link href="/admin/dashboard">
             <Button variant="ghost" className="w-full justify-start gap-3 px-4 py-3 rounded-xl text-[10px] uppercase font-black tracking-widest text-muted-foreground/40 hover:text-primary hover:bg-primary/5 transition-all duration-200">
                <ShieldCheck className="w-4 h-4" />
                Switch to Admin
             </Button>
           </Link>
-        )}
+        ) : null}
         
         <Button 
           variant="ghost" 

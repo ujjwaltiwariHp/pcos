@@ -82,13 +82,14 @@ export default function AdminUsersPage() {
         </div>
       </div>
 
-      <div className="glass rounded-[2rem] border border-border/50 overflow-hidden shadow-2xl">
+      <div className="glass rounded-[2rem] border border-border/50 overflow-x-auto shadow-2xl">
         <Table>
           <TableHeader className="bg-muted/30">
             <TableRow className="hover:bg-transparent border-border/50">
               <TableHead className="font-black uppercase tracking-widest text-[10px] py-6 px-8">User</TableHead>
               <TableHead className="font-black uppercase tracking-widest text-[10px] py-6">Status/Role</TableHead>
               <TableHead className="font-black uppercase tracking-widest text-[10px] py-6">Joined Date</TableHead>
+              <TableHead className="font-black uppercase tracking-widest text-[10px] py-6">Assessments</TableHead>
               <TableHead className="font-black uppercase tracking-widest text-[10px] py-6 px-8 text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -99,12 +100,13 @@ export default function AdminUsersPage() {
                   <TableCell className="py-6 px-8"><div className="h-10 w-48 bg-muted/50 rounded-lg animate-pulse" /></TableCell>
                   <TableCell className="py-6"><div className="h-6 w-20 bg-muted/50 rounded-lg animate-pulse" /></TableCell>
                   <TableCell className="py-6"><div className="h-6 w-32 bg-muted/50 rounded-lg animate-pulse" /></TableCell>
+                  <TableCell className="py-6"><div className="h-6 w-20 bg-muted/50 rounded-lg animate-pulse" /></TableCell>
                   <TableCell className="py-6 px-8 text-right"><div className="h-10 w-20 bg-muted/50 rounded-lg animate-pulse float-right" /></TableCell>
                 </TableRow>
               ))
             ) : filteredUsers.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={4} className="py-20 text-center text-muted-foreground font-medium">
+                <TableCell colSpan={5} className="py-20 text-center text-muted-foreground font-medium">
                   No users found matching your search.
                 </TableCell>
               </TableRow>
@@ -137,8 +139,19 @@ export default function AdminUsersPage() {
                 <TableCell className="py-6 font-medium text-sm text-muted-foreground">
                   {new Date(user.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
                 </TableCell>
+                <TableCell className="py-6">
+                  {user.assessments && user.assessments.length > 0 ? (
+                    <Badge variant="outline" className="text-[10px] uppercase font-black px-3 py-1 border-emerald-500/50 text-emerald-500 bg-emerald-500/5">
+                      {user.assessments.length} Taken
+                    </Badge>
+                  ) : (
+                    <Badge variant="outline" className="text-[10px] uppercase font-black px-3 py-1 border-muted text-muted-foreground bg-muted/50">
+                      None
+                    </Badge>
+                  )}
+                </TableCell>
                 <TableCell className="py-6 px-8 text-right">
-                  <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+                  <div className="flex items-center justify-end gap-2 transition-all duration-300">
                     <Button 
                       variant="ghost" 
                       size="icon" 

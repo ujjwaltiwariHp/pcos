@@ -104,7 +104,7 @@ export default function AdminDashboardPage() {
           <Button variant="link" className="text-primary font-bold">View Full Logs</Button>
         </div>
         
-        <div className="glass rounded-[2rem] border border-border/50 overflow-hidden shadow-2xl">
+        <div className="glass rounded-[2rem] border border-border/50 overflow-x-auto shadow-2xl">
           <Table>
             <TableHeader className="bg-muted/30">
               <TableRow className="hover:bg-transparent border-border/50">
@@ -150,7 +150,7 @@ export default function AdminDashboardPage() {
                     </Badge>
                   </TableCell>
                   <TableCell className="py-6 px-8 text-right">
-                    <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex items-center justify-end gap-2 transition-all duration-300">
                       <Button variant="ghost" size="icon" className="rounded-xl hover:bg-primary/10 hover:text-primary">
                         <Eye className="w-5 h-5" />
                       </Button>

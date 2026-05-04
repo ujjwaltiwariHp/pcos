@@ -171,7 +171,7 @@ export default function ResultsPage() {
             <p className="text-lg font-medium text-primary-foreground/80 leading-relaxed">
               Generate a comprehensive PDF health dossier to present to your gynecologist or endocrinologist.
             </p>
-            <Button size="lg" className="w-full bg-white text-primary hover:bg-white/90 rounded-2xl font-black h-16 shadow-2xl text-lg group gap-3" disabled>
+            <Button size="lg" className="w-full bg-white text-primary hover:bg-white/90 rounded-2xl font-black h-16 shadow-2xl text-lg group gap-3" onClick={() => window.print()}>
               <Download className="h-6 w-6 group-hover:translate-y-1 transition-transform" /> 
               Download Report
             </Button>

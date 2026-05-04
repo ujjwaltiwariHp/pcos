@@ -236,7 +236,7 @@ export default function DashboardPage() {
             <Button variant="link" className="text-primary font-bold">Export Data</Button>
           </div>
           
-          <div className="glass rounded-[2rem] border border-border/50 overflow-hidden">
+          <div className="glass rounded-[2rem] border border-border/50 overflow-x-auto">
             {assessments.length > 0 ? (
               <Table>
                 <TableHeader className="bg-muted/30">
