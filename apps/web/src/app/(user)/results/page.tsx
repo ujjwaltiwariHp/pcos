@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { API_URL } from '@/lib/api';
+import { API_URL, fetchApi } from '@/lib/api';
 import { FileText, Trash2, Eye, Calendar, TrendingUp, ArrowRight, ClipboardCheck } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
@@ -16,11 +16,7 @@ export default function UserResultsHistoryPage() {
 
   const fetchHistory = async () => {
     try {
-      const response = await fetch(`${API_URL}/assessments`, {
-        credentials: 'include',
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message);
+      const data = await fetchApi('/assessments');
       setAssessments(data.assessments);
     } catch (error: any) {
       toast.error(error.message);
@@ -37,11 +33,9 @@ export default function UserResultsHistoryPage() {
     if (!confirm('Are you sure you want to delete this assessment record?')) return;
     
     try {
-      const response = await fetch(`${API_URL}/assessments/${id}`, {
+      await fetchApi(`/assessments/${id}`, {
         method: 'DELETE',
-        credentials: 'include',
       });
-      if (!response.ok) throw new Error('Failed to delete assessment');
       toast.success('Assessment record deleted');
       setAssessments(assessments.filter(a => a.id !== id));
     } catch (error: any) {

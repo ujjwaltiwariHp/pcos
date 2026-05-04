@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { API_URL } from '@/lib/api';
+import { API_URL, fetchApi } from '@/lib/api';
 import { Users, Search, Trash2, Edit, MoreHorizontal, UserCheck, ShieldAlert } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
@@ -18,11 +18,7 @@ export default function AdminUsersPage() {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch(`${API_URL}/admin/users`, {
-        credentials: 'include',
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message);
+      const data = await fetchApi('/admin/users');
       setUsersList(data.users);
     } catch (error: any) {
       toast.error(error.message);
@@ -39,11 +35,9 @@ export default function AdminUsersPage() {
     if (!confirm('Are you sure you want to delete this user? This action is permanent.')) return;
     
     try {
-      const response = await fetch(`${API_URL}/admin/users/${id}`, {
+      await fetchApi(`/admin/users/${id}`, {
         method: 'DELETE',
-        credentials: 'include',
       });
-      if (!response.ok) throw new Error('Failed to delete user');
       toast.success('User deleted successfully');
       setUsersList(usersList.filter(u => u.id !== id));
     } catch (error: any) {
@@ -54,13 +48,10 @@ export default function AdminUsersPage() {
   const handleToggleRole = async (user: any) => {
     const newRole = user.role === 'admin' ? 'user' : 'admin';
     try {
-      const response = await fetch(`${API_URL}/admin/users/${user.id}`, {
+      await fetchApi(`/admin/users/${user.id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ role: newRole }),
-        credentials: 'include',
       });
-      if (!response.ok) throw new Error('Failed to update user role');
       toast.success(`User role updated to ${newRole}`);
       setUsersList(usersList.map(u => u.id === user.id ? { ...u, role: newRole } : u));
     } catch (error: any) {

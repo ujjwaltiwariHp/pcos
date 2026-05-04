@@ -6,7 +6,7 @@ import { CardContent, CardDescription, CardHeader, CardTitle } from '@/component
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { RiskGauge } from '@/components/result/RiskGauge';
-import { API_URL } from '@/lib/api';
+import { API_URL, fetchApi } from '@/lib/api';
 import { AlertCircle, CheckCircle2, Info, ArrowLeft, Download, Heart, ShieldAlert, ChevronRight, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
@@ -20,14 +20,7 @@ export default function ResultsPage() {
   useEffect(() => {
     const fetchAssessment = async () => {
       try {
-        const response = await fetch(`${API_URL}/assessments/${id}`, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-        });
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.message);
+        const data = await fetchApi(`/assessments/${id}`);
         setAssessment(data.assessment);
       } catch (error: any) {
         toast.error(error.message);

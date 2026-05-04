@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { API_URL } from '@/lib/api';
+import { API_URL, fetchApi } from '@/lib/api';
 import { User, Mail, Shield, Calendar, Save, LogOut } from 'lucide-react';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
@@ -18,9 +18,7 @@ export default function ProfilePage() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch(`${API_URL}/auth/me`, { credentials: 'include' });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message);
+        const data = await fetchApi('/auth/me');
         setUser(data.user);
       } catch (error: any) {
         toast.error(error.message);

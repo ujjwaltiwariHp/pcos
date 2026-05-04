@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { toast } from 'sonner';
-import { API_URL } from '@/lib/api';
+import { API_URL, fetchApi } from '@/lib/api';
 import { ChevronLeft, Sparkles, Loader2 } from 'lucide-react';
 
 export function Step4() {
@@ -18,12 +18,8 @@ export function Step4() {
   const handleSubmit = async () => {
     setIsSubmitting(true);
     try {
-      const response = await fetch(`${API_URL}/assessments`, {
+      const data = await fetchApi('/assessments', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
         body: JSON.stringify({
           personalData,
           symptomsData,
@@ -31,12 +27,6 @@ export function Step4() {
           lifestyleData,
         }),
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Submission failed');
-      }
 
       toast.success('Assessment complete! Viewing results...');
       router.push(`/results/${data.assessment.id}`);

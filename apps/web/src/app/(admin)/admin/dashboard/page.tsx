@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { API_URL } from '@/lib/api';
+import { API_URL, fetchApi } from '@/lib/api';
 import { Users, FileText, BarChart3, Download, Heart, TrendingUp, Eye, MoreHorizontal } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
@@ -17,12 +17,7 @@ export default function AdminDashboardPage() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch(`${API_URL}/admin/stats`, {
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-        });
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.message);
+        const data = await fetchApi('/admin/stats');
         setStats(data);
       } catch (error: any) {
         toast.error(error.message);
@@ -63,7 +58,22 @@ export default function AdminDashboardPage() {
         </div>
         <Button 
           variant="outline" 
-          onClick={() => window.open(`${API_URL}/admin/assessments/export`, '_blank')}
+          onClick={async () => {
+            try {
+              const res = await fetch(`${API_URL}/admin/assessments/export`, {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+                credentials: 'include'
+              });
+              const blob = await res.blob();
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = 'pcos_assessments_export.csv';
+              a.click();
+            } catch (error) {
+              toast.error("Failed to export data");
+            }
+          }}
           className="rounded-2xl h-14 px-8 border-white/10 hover:bg-white/5 font-bold gap-2"
         >
           <Download className="h-5 w-5" /> Export All Data

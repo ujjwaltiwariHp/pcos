@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { API_URL } from '@/lib/api';
+import { API_URL, fetchApi } from '@/lib/api';
 import { FileText, Search, Trash2, Eye, Download, Activity, Calendar, User } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
@@ -19,11 +19,7 @@ export default function AdminAssessmentsPage() {
 
   const fetchAssessments = async () => {
     try {
-      const response = await fetch(`${API_URL}/admin/assessments`, {
-        credentials: 'include',
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message);
+      const data = await fetchApi('/admin/assessments');
       setAssessments(data.assessments);
     } catch (error: any) {
       toast.error(error.message);
@@ -40,11 +36,9 @@ export default function AdminAssessmentsPage() {
     if (!confirm('Are you sure you want to delete this assessment?')) return;
     
     try {
-      const response = await fetch(`${API_URL}/admin/assessments/${id}`, {
+      await fetchApi(`/admin/assessments/${id}`, {
         method: 'DELETE',
-        credentials: 'include',
       });
-      if (!response.ok) throw new Error('Failed to delete assessment');
       toast.success('Assessment deleted successfully');
       setAssessments(assessments.filter(a => a.id !== id));
     } catch (error: any) {
@@ -76,7 +70,22 @@ export default function AdminAssessmentsPage() {
           </div>
           <Button 
             variant="outline" 
-            onClick={() => window.open(`${API_URL}/admin/assessments/export`, '_blank')}
+            onClick={async () => {
+              try {
+                const res = await fetch(`${API_URL}/admin/assessments/export`, {
+                  headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+                  credentials: 'include'
+                });
+                const blob = await res.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'assessments_export.csv';
+                a.click();
+              } catch (error) {
+                toast.error("Failed to export data");
+              }
+            }}
             className="rounded-2xl h-14 px-6 border-white/10 hover:bg-white/5 font-bold gap-2 hidden md:flex"
           >
             <Download className="h-5 w-5" /> Export CSV
