@@ -129,10 +129,7 @@
 
 @layer utilities {
   .glass {
-    background-color: oklch(var(--card) / 60%);
-    backdrop-filter: blur(24px);
-    border: 1px solid oklch(1 0 0 / 10%);
-    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    @apply bg-card/60 backdrop-blur-3xl border border-border/50 shadow-2xl;
   }
   
   .glass-darker {
@@ -197,8 +194,8 @@
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
   input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 1000px oklch(0.16 0.03 250) inset !important;
-    -webkit-text-fill-color: white !important;
+    -webkit-box-shadow: 0 0 0 1000px var(--muted) inset !important;
+    -webkit-text-fill-color: var(--foreground) !important;
     transition: background-color 5000s ease-in-out 0s;
   }
 }

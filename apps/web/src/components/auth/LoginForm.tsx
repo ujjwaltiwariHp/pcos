@@ -94,7 +94,7 @@ export function LoginForm() {
                 <Input 
                   placeholder="name@example.com" 
                   {...field} 
-                  className="h-14 bg-white/[0.03] border-white/10 rounded-2xl focus:ring-primary/20 hover:bg-white/[0.05] transition-all"
+                  className="h-14 bg-muted/40 border-border rounded-2xl focus:ring-primary/20 hover:bg-muted/60 transition-all"
                 />
               </FormControl>
               <FormMessage className="text-[10px] font-bold uppercase" />
@@ -113,7 +113,7 @@ export function LoginForm() {
                     type={showPassword ? "text" : "password"} 
                     placeholder="••••••••" 
                     {...field} 
-                    className="h-14 bg-white/[0.03] border-white/10 rounded-2xl focus:ring-primary/20 hover:bg-white/[0.05] transition-all pr-14"
+                    className="h-14 bg-muted/40 border-border rounded-2xl focus:ring-primary/20 hover:bg-muted/60 transition-all pr-14"
                   />
                   <button
                     type="button"

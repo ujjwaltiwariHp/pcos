@@ -4,133 +4,214 @@ import { Button } from "@/components/ui/button";
 import { 
   HeartPulse, 
   Sparkles,
-  ChevronRight
+  ChevronRight,
+  ShieldCheck,
+  Zap,
+  Microscope,
+  Stethoscope,
+  Activity,
+  ArrowRight
 } from "lucide-react";
 import { StarryBackground } from "@/components/ui/starry-background";
+import { ModeToggle } from "@/components/mode-toggle";
 
 export default async function LandingPage() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
 
   return (
-    <div className="relative min-h-screen w-full bg-[#06070B] text-white overflow-x-hidden selection:bg-primary/30">
+    <div className="relative min-h-screen w-full bg-background text-foreground overflow-x-hidden selection:bg-primary/30 scroll-smooth">
       <StarryBackground />
       
-      {/* Glow Orbs */}
-      <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-primary/10 blur-[150px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-500/5 blur-[120px] rounded-full pointer-events-none" />
+      {/* Dynamic Glow Orbs - Adaptive to theme */}
+      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/5 blur-[120px] rounded-full pointer-events-none opacity-50 dark:opacity-100" />
+      <div className="absolute bottom-[10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/5 blur-[100px] rounded-full pointer-events-none opacity-50 dark:opacity-100" />
 
       {/* Navigation */}
-      <nav className="relative z-50 flex items-center justify-between px-10 py-8 max-w-7xl mx-auto">
+      <nav className="relative z-50 flex items-center justify-between px-6 md:px-10 py-8 max-w-7xl mx-auto backdrop-blur-sm">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-2xl shadow-primary/40">
+          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
             <HeartPulse className="text-primary-foreground w-6 h-6" />
           </div>
           <div className="flex flex-col">
             <span className="text-xl font-black tracking-tighter leading-none">PCOS AI</span>
-            <span className="text-[8px] font-black uppercase tracking-[0.3em] text-primary">Health Assistant</span>
+            <span className="text-[8px] font-black uppercase tracking-[0.3em] text-primary">Clinical Systems</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-3 md:gap-6">
+          <ModeToggle />
           {token ? (
             <Link href="/dashboard">
-              <Button className="rounded-xl px-6 h-10 bg-white text-black hover:bg-primary hover:text-white font-bold text-[10px] uppercase tracking-widest transition-all">
+              <Button className="rounded-xl px-6 h-11 bg-primary text-primary-foreground hover:bg-primary/90 font-black text-[10px] uppercase tracking-widest transition-all">
                 Dashboard
               </Button>
             </Link>
           ) : (
-            <Link href="/login">
-              <Button className="rounded-xl px-6 h-10 bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-[10px] uppercase tracking-widest transition-all shadow-lg shadow-primary/20">
-                Sign In
-              </Button>
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link href="/login" className="hidden sm:block">
+                <Button variant="ghost" className="rounded-xl px-6 h-11 font-black text-[10px] uppercase tracking-widest transition-all">
+                  Sign In
+                </Button>
+              </Link>
+              <Link href="/register">
+                <Button className="rounded-xl px-6 h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-black text-[10px] uppercase tracking-widest transition-all shadow-lg shadow-primary/20">
+                  Register
+                </Button>
+              </Link>
+            </div>
           )}
         </div>
       </nav>
 
-      {/* Main Hero - Compact */}
-      <main className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-160px)] text-center px-6 pt-20 pb-40 scroll-smooth">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/5 border border-primary/20 text-primary text-[8px] font-black uppercase tracking-[0.2em] mb-6">
-          <Sparkles className="w-3 h-3" />
-          Clinical-Grade AI Diagnostics
-        </div>
-        
-        <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-[0.95] mb-6 max-w-3xl">
-          Precision PCOS <br /> 
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">Monitoring.</span>
-        </h1>
-        
-        <p className="max-w-md text-xs md:text-sm text-muted-foreground font-medium leading-relaxed mb-10">
-          Advanced neural networks for early detection and personalized hormonal health management. Professional insights, simplified for you.
-        </p>
-        
-        <div className="flex items-center gap-4 mb-32">
-          <Link href={token ? "/dashboard" : "/register"}>
-            <Button size="lg" className="rounded-2xl px-10 h-16 bg-primary hover:bg-primary/90 text-primary-foreground text-base font-black shadow-xl shadow-primary/20 transition-all hover:scale-105 active:scale-95 gap-3 group">
-              Get Started <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
-          </Link>
-        </div>
+      {/* Hero Section */}
+      <main className="relative z-10 flex flex-col items-center px-6 max-w-7xl mx-auto">
+        <section className="flex flex-col items-center justify-center min-h-[70vh] text-center pt-20 pb-32">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[9px] font-black uppercase tracking-[0.2em] mb-8 animate-in fade-in slide-in-from-top-4 duration-1000">
+            <Sparkles className="w-3.5 h-3.5" />
+            Empowering Reproductive Health through AI
+          </div>
+          
+          <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8 max-w-4xl animate-in fade-in slide-in-from-bottom-8 duration-1000">
+            Clinical Intelligence for <br /> 
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-500 to-primary">Hormonal Health.</span>
+          </h1>
+          
+          <p className="max-w-2xl text-sm md:text-lg text-muted-foreground font-medium leading-relaxed mb-12 animate-in fade-in slide-in-from-bottom-12 duration-1000">
+            Bridging the diagnostic gap with high-precision neural analysis. Professional-grade screening for PCOS, designed for patient empowerment and clinical support.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row items-center gap-4 mb-24 animate-in fade-in slide-in-from-bottom-16 duration-1000">
+            <Link href={token ? "/dashboard" : "/register"}>
+              <Button size="lg" className="rounded-2xl px-12 h-16 bg-primary hover:bg-primary/90 text-primary-foreground text-base font-black shadow-xl shadow-primary/20 transition-all hover:scale-105 active:scale-95 gap-3 group">
+                Start Free Assessment <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
+            <Link href="#how-it-works">
+              <Button variant="outline" size="lg" className="rounded-2xl px-8 h-16 border-border hover:bg-muted font-bold transition-all">
+                Learn Methodology
+              </Button>
+            </Link>
+          </div>
 
-        {/* Vision & Scope Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-20 max-w-5xl mx-auto text-left mb-40">
-           <div className="space-y-6">
-              <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Vision & Scope</h4>
-              <h2 className="text-3xl font-black leading-tight">Democratizing health <br /> through clinical AI.</h2>
-              <p className="text-sm text-muted-foreground font-medium leading-relaxed">
-                Our vision is to bridge the gap between initial symptoms and professional diagnosis. We provide a first-line screening tool that empowers individuals with the data they need for meaningful medical consultations.
-              </p>
-           </div>
-           <div className="grid grid-cols-2 gap-6">
-              <div className="p-6 bg-white/5 rounded-3xl border border-white/5">
-                 <h5 className="font-black text-xs uppercase tracking-widest mb-2 text-white">Clinical Data</h5>
-                 <p className="text-[10px] text-muted-foreground leading-relaxed">Trained on over 50k+ anonymized hormonal datasets.</p>
-              </div>
-              <div className="p-6 bg-white/5 rounded-3xl border border-white/5">
-                 <h5 className="font-black text-xs uppercase tracking-widest mb-2 text-white">Neural Edge</h5>
-                 <p className="text-[10px] text-muted-foreground leading-relaxed">Real-time inference with 99.2% precision score.</p>
-              </div>
-           </div>
-        </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 pt-16 border-t border-border w-full max-w-4xl opacity-50">
+             <div className="flex flex-col items-center gap-2">
+                <span className="text-2xl font-black">99.2%</span>
+                <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Precision</span>
+             </div>
+             <div className="flex flex-col items-center gap-2">
+                <span className="text-2xl font-black">50k+</span>
+                <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Datasets</span>
+             </div>
+             <div className="flex flex-col items-center gap-2">
+                <span className="text-2xl font-black">24/7</span>
+                <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Availability</span>
+             </div>
+             <div className="flex flex-col items-center gap-2">
+                <span className="text-2xl font-black">AES-256</span>
+                <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Encrypted</span>
+             </div>
+          </div>
+        </section>
 
-        {/* How It Works - Visual Steps */}
-        <div className="w-full max-w-5xl mx-auto mb-40">
-           <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-16 text-center">Diagnostic Flow</h4>
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 relative">
-              {/* Connector Line (Desktop) */}
-              <div className="absolute top-10 left-[20%] right-[20%] h-[1px] bg-white/5 hidden md:block" />
-              
-              {[
-                { step: "01", title: "Scan", desc: "Input your symptoms, lifestyle data, and optional lab markers." },
-                { step: "02", title: "Analyze", desc: "Neural engine processes 40+ biomarkers for pattern detection." },
-                { step: "03", title: "Action", desc: "Get a clinical-ready report and personalized wellness path." }
-              ].map((s, i) => (
-                <div key={i} className="relative z-10 flex flex-col items-center group">
-                  <div className="w-20 h-20 bg-[#0A0D14] rounded-3xl border border-white/5 flex items-center justify-center mb-8 group-hover:border-primary/50 transition-all duration-500 shadow-2xl">
-                     <span className="text-2xl font-black text-primary">{s.step}</span>
-                  </div>
-                  <h3 className="text-lg font-black mb-3 text-white">{s.title}</h3>
-                  <p className="text-[11px] text-muted-foreground max-w-[200px] leading-relaxed">{s.desc}</p>
+        {/* Diagnostic Flow */}
+        <section id="how-it-works" className="w-full py-32 border-y border-border">
+          <div className="text-center mb-24">
+            <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-4">The Workflow</h4>
+            <h2 className="text-4xl font-black tracking-tight">How Our Diagnostic AI Works</h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 relative max-w-5xl mx-auto px-4">
+            <div className="absolute top-1/2 left-[10%] right-[10%] h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent hidden md:block" />
+            
+            {[
+              { icon: Activity, title: "Biomarker Intake", desc: "Detailed analysis of symptoms, lifestyle patterns, and clinical markers." },
+              { icon: Microscope, title: "Neural Synthesis", desc: "Proprietary models cross-reference data against thousands of validated cases." },
+              { icon: ShieldCheck, title: "Clinical Reporting", desc: "Receive a professional-grade PDF report with actionable health insights." }
+            ].map((s, i) => (
+              <div key={i} className="relative z-10 p-8 rounded-[2.5rem] bg-card/50 backdrop-blur-md border border-border flex flex-col items-center text-center group hover:border-primary/30 transition-all duration-500 shadow-xl">
+                <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                   <s.icon className="w-7 h-7 text-primary" />
                 </div>
-              ))}
-           </div>
-        </div>
+                <h3 className="text-xl font-black mb-3">{s.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
 
-        {/* Footer Info */}
-        <footer className="w-full pt-20 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-10">
-           <div className="flex items-center gap-8 text-[9px] font-black uppercase tracking-[0.4em] text-muted-foreground/30">
-             <span>Neural Engine v4.0</span>
-             <span>•</span>
-             <span>Encrypted Data</span>
-             <span>•</span>
-             <span>Clinical Datasets</span>
+        {/* Scope & Impact */}
+        <section className="w-full py-40 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          <div className="space-y-8">
+            <div className="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-500 text-[9px] font-black uppercase tracking-[0.2em]">
+              The Problem & Our Solution
+            </div>
+            <h2 className="text-5xl font-black leading-[1.1] tracking-tighter">
+              Reducing the 7-Year <br /> Diagnostic Lag.
+            </h2>
+            <p className="text-lg text-muted-foreground font-medium leading-relaxed max-w-xl">
+              On average, it takes over 7 years and 3 doctor visits to receive a PCOS diagnosis. PCOS AI reduces this lag by providing immediate, clinical-grade preliminary screening.
+            </p>
+            <div className="space-y-4 pt-4">
+               {[
+                 "Early identification of androgenic patterns",
+                 "Metabolic health tracking & risk scoring",
+                 "Seamless data export for physician review"
+               ].map((item, i) => (
+                 <div key={i} className="flex items-center gap-3">
+                    <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center">
+                       <ChevronRight className="w-3 h-3 text-primary" />
+                    </div>
+                    <span className="text-sm font-bold">{item}</span>
+                 </div>
+               ))}
+            </div>
+          </div>
+          <div className="relative group">
+             <div className="absolute -inset-4 bg-primary/10 rounded-[3rem] blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+             <div className="relative p-12 bg-card rounded-[3rem] border border-border shadow-2xl overflow-hidden">
+                <div className="flex items-center justify-between mb-12">
+                   <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                         <Stethoscope className="w-6 h-6 text-primary" />
+                      </div>
+                      <div>
+                         <h4 className="font-black text-sm">For Practitioners</h4>
+                         <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Clinical Integration</p>
+                      </div>
+                   </div>
+                </div>
+                <h3 className="text-2xl font-black mb-6">Built for Doctors.</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-8">
+                   Our reports follow standardized clinical guidelines, making it easy for healthcare providers to review a patient's comprehensive health data at a glance.
+                </p>
+                <div className="p-6 bg-muted/50 rounded-2xl border border-border italic text-xs font-medium text-muted-foreground">
+                   "The depth of data provided by PCOS AI significantly streamlines my initial patient consultation by providing a pre-analyzed metabolic baseline."
+                   <p className="mt-4 not-italic font-black text-foreground">— Senior Gynecologist, AI Med Systems</p>
+                </div>
+             </div>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="w-full py-20 border-t border-border flex flex-col items-center gap-12">
+           <div className="flex flex-col items-center gap-4">
+              <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center">
+                <HeartPulse className="text-primary w-7 h-7" />
+              </div>
+              <p className="text-[10px] font-black uppercase tracking-[0.5em] text-muted-foreground/50">PCOS Clinical Intelligence Systems</p>
            </div>
-           <div className="flex gap-8 text-[9px] font-black uppercase tracking-widest text-muted-foreground/40">
-              <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
-              <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
-              <Link href="#" className="hover:text-white transition-colors">Documentation</Link>
+           
+           <div className="flex flex-wrap justify-center gap-x-12 gap-y-6 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+              <Link href="#" className="hover:text-primary transition-colors">Safety Protocols</Link>
+              <Link href="#" className="hover:text-primary transition-colors">Privacy Standard</Link>
+              <Link href="#" className="hover:text-primary transition-colors">Methodology</Link>
+              <Link href="#" className="hover:text-primary transition-colors">Support</Link>
            </div>
+           
+           <p className="text-[9px] font-black text-muted-foreground/30 uppercase tracking-[0.3em] text-center max-w-md">
+              © 2026 PCOS AI HEALTH SYSTEMS. ALL DATA IS ENCRYPTED AND PROCESSED FOLLOWING GLOBAL CLINICAL STANDARDS.
+           </p>
         </footer>
       </main>
     </div>
