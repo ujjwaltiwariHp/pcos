@@ -90,4 +90,32 @@ router.get('/:id', authenticate, async (req, res) => {
   }
 });
 
+router.delete('/:id', authenticate, async (req, res) => {
+  try {
+    const id = req.params.id as string;
+    
+    // Security check: ensure user owns the assessment
+    const assessment = await db.query.assessments.findFirst({
+      where: eq(assessments.id, id),
+    });
+
+    if (!assessment) {
+      return res.status(404).json({ message: 'Assessment not found' });
+    }
+
+    if (assessment.userId !== req.user!.userId) {
+      return res.status(403).json({ message: 'Forbidden: You do not own this assessment' });
+    }
+
+    const [deletedAssessment] = await db.delete(assessments)
+      .where(eq(assessments.id, id))
+      .returning();
+
+    res.json({ message: 'Assessment deleted successfully', assessment: deletedAssessment });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 export default router;

@@ -53,12 +53,76 @@ router.get('/users', async (req, res) => {
   }
 });
 
+router.patch('/users/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { role, name, email } = req.body;
+    
+    const [updatedUser] = await db.update(users)
+      .set({ 
+        ...(role && { role }), 
+        ...(name && { name }), 
+        ...(email && { email }),
+        updatedAt: new Date()
+      })
+      .where(eq(users.id, id))
+      .returning();
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json({ user: updatedUser });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.delete('/users/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const [deletedUser] = await db.delete(users)
+      .where(eq(users.id, id))
+      .returning();
+
+    if (!deletedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json({ message: 'User deleted successfully', user: deletedUser });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 router.get('/assessments', async (req, res) => {
   try {
     const allAssessments = await db.query.assessments.findMany({
       orderBy: [desc(assessments.createdAt)],
     });
     res.json({ assessments: allAssessments });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.delete('/assessments/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const [deletedAssessment] = await db.delete(assessments)
+      .where(eq(assessments.id, id))
+      .returning();
+
+    if (!deletedAssessment) {
+      return res.status(404).json({ message: 'Assessment not found' });
+    }
+
+    res.json({ message: 'Assessment deleted successfully', assessment: deletedAssessment });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });

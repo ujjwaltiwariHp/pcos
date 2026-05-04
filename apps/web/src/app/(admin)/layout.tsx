@@ -1,9 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Navbar } from "@/components/layout/Navbar";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { API_URL } from "@/lib/api";
+import { toast } from "sonner";
 
 export default function AdminLayout({
   children,
@@ -11,6 +14,37 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      try {
+        const res = await fetch(`${API_URL}/auth/me`, { credentials: 'include' });
+        const data = await res.json();
+        if (!res.ok || data.user.role !== 'admin') {
+          toast.error("Unauthorized: Admin access required");
+          router.push('/dashboard');
+          return;
+        }
+        setIsVerifying(false);
+      } catch (error) {
+        router.push('/login');
+      }
+    };
+    checkAdmin();
+  }, [router]);
+
+  if (isVerifying) {
+    return (
+      <div className="h-screen w-screen flex items-center justify-center bg-[#090A0F]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground animate-pulse">Verifying Credentials...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
