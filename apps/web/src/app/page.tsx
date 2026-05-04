@@ -54,7 +54,7 @@ export default async function LandingPage() {
                   Sign In
                 </Button>
               </Link>
-              <Link href="/register">
+              <Link href="/login">
                 <Button className="rounded-xl px-6 h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-black text-[10px] uppercase tracking-widest transition-all shadow-lg shadow-primary/20">
                   Register
                 </Button>
@@ -82,7 +82,7 @@ export default async function LandingPage() {
           </p>
           
           <div className="flex flex-col sm:flex-row items-center gap-4 mb-24 animate-in fade-in slide-in-from-bottom-16 duration-1000">
-            <Link href={token ? "/dashboard" : "/register"}>
+            <Link href={token ? "/dashboard" : "/login"}>
               <Button size="lg" className="rounded-2xl px-12 h-16 bg-primary hover:bg-primary/90 text-primary-foreground text-base font-black shadow-xl shadow-primary/20 transition-all hover:scale-105 active:scale-95 gap-3 group">
                 Start Free Assessment <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>

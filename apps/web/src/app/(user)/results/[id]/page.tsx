@@ -66,7 +66,7 @@ export default function ResultsPage() {
         <Button 
           variant="ghost" 
           onClick={() => router.push('/dashboard')} 
-          className="text-muted-foreground hover:text-white group gap-2 font-bold px-0 hover:bg-transparent"
+          className="text-muted-foreground hover:text-foreground group gap-2 font-bold px-0 hover:bg-transparent"
         >
           <ArrowLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" /> 
           Back to Health Overview
@@ -80,7 +80,7 @@ export default function ResultsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Risk Score Gauge */}
         <div className="lg:col-span-4">
-          <div className="glass rounded-[2.5rem] border border-white/10 p-8 h-full flex flex-col items-center justify-center text-center">
+          <div className="glass rounded-[2.5rem] border border-border/50 p-8 h-full flex flex-col items-center justify-center text-center">
             <h3 className="text-xl font-black mb-8 uppercase tracking-widest text-muted-foreground/60">Risk Profile</h3>
             <div className="relative group">
               <div className="absolute -inset-4 bg-primary/20 blur-3xl rounded-full opacity-50 group-hover:opacity-80 transition-opacity" />
@@ -95,8 +95,8 @@ export default function ResultsPage() {
 
         {/* AI Summary */}
         <div className="lg:col-span-8">
-          <div className="glass rounded-[2.5rem] border border-white/10 h-full overflow-hidden flex flex-col">
-            <CardHeader className="p-8 border-b border-white/5 bg-white/[0.02]">
+          <div className="glass rounded-[2.5rem] border border-border/50 h-full overflow-hidden flex flex-col">
+            <CardHeader className="p-8 border-b border-border/50 bg-muted/10">
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-primary/10 rounded-2xl">
                   <ShieldAlert className="h-6 w-6 text-primary" />
@@ -112,8 +112,8 @@ export default function ResultsPage() {
                 <h4 className="text-sm font-black text-muted-foreground uppercase tracking-[0.2em] mb-4">Key Risk Drivers</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {aiAnalysis.keyFactors.map((factor: string, i: number) => (
-                    <div key={i} className="flex items-center gap-3 p-4 rounded-2xl bg-white/5 border border-white/5 font-bold text-sm">
-                      <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+                    <div key={i} className="flex items-center gap-3 p-4 rounded-2xl bg-muted/20 border border-border/50 font-bold text-sm">
+                      <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(var(--primary-rgb),0.5)]" />
                       {factor}
                     </div>
                   ))}
@@ -140,7 +140,7 @@ export default function ResultsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Recommendations */}
-        <div className="glass rounded-[2.5rem] border border-white/10 p-8 space-y-6">
+        <div className="glass rounded-[2.5rem] border border-border/50 p-8 space-y-6">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-emerald-500/10 rounded-2xl">
               <CheckCircle2 className="h-6 w-6 text-emerald-500" />
@@ -149,7 +149,7 @@ export default function ResultsPage() {
           </div>
           <div className="space-y-3">
             {aiAnalysis.recommendations.map((rec: string, i: number) => (
-              <div key={i} className="flex items-start gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 group hover:bg-white/10 transition-colors">
+              <div key={i} className="flex items-start gap-4 p-4 rounded-2xl bg-muted/20 border border-border/50 group hover:bg-muted/40 transition-colors">
                 <div className="h-8 w-8 rounded-xl bg-emerald-500/20 text-emerald-500 flex items-center justify-center shrink-0 text-xs font-black">
                   {i + 1}
                 </div>

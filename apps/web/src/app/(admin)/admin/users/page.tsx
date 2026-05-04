@@ -68,24 +68,24 @@ export default function AdminUsersPage() {
     <div className="space-y-8 pb-20">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="space-y-2">
-          <h1 className="text-4xl font-extrabold tracking-tight text-white">User Management</h1>
+          <h1 className="text-4xl font-extrabold tracking-tight text-foreground">User Management</h1>
           <p className="text-muted-foreground text-lg font-medium">Manage system users, roles, and security access.</p>
         </div>
         <div className="relative w-full md:w-96 group">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
           <Input 
             placeholder="Search users by name or email..." 
-            className="pl-12 h-14 bg-white/5 border-white/10 rounded-2xl focus:ring-primary/20"
+            className="pl-12 h-14 bg-muted/30 border-border/50 rounded-2xl focus:ring-primary/20"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
       </div>
 
-      <div className="glass rounded-[2rem] border border-white/5 overflow-hidden shadow-2xl">
+      <div className="glass rounded-[2rem] border border-border/50 overflow-hidden shadow-2xl">
         <Table>
-          <TableHeader className="bg-white/5">
-            <TableRow className="hover:bg-transparent border-white/5">
+          <TableHeader className="bg-muted/30">
+            <TableRow className="hover:bg-transparent border-border/50">
               <TableHead className="font-black uppercase tracking-widest text-[10px] py-6 px-8">User</TableHead>
               <TableHead className="font-black uppercase tracking-widest text-[10px] py-6">Status/Role</TableHead>
               <TableHead className="font-black uppercase tracking-widest text-[10px] py-6">Joined Date</TableHead>
@@ -95,11 +95,11 @@ export default function AdminUsersPage() {
           <TableBody>
             {isLoading ? (
               [...Array(5)].map((_, i) => (
-                <TableRow key={i} className="border-white/5">
-                  <TableCell className="py-6 px-8"><div className="h-10 w-48 bg-white/5 rounded-lg animate-pulse" /></TableCell>
-                  <TableCell className="py-6"><div className="h-6 w-20 bg-white/5 rounded-lg animate-pulse" /></TableCell>
-                  <TableCell className="py-6"><div className="h-6 w-32 bg-white/5 rounded-lg animate-pulse" /></TableCell>
-                  <TableCell className="py-6 px-8 text-right"><div className="h-10 w-20 bg-white/5 rounded-lg animate-pulse float-right" /></TableCell>
+                <TableRow key={i} className="border-border/50">
+                  <TableCell className="py-6 px-8"><div className="h-10 w-48 bg-muted/50 rounded-lg animate-pulse" /></TableCell>
+                  <TableCell className="py-6"><div className="h-6 w-20 bg-muted/50 rounded-lg animate-pulse" /></TableCell>
+                  <TableCell className="py-6"><div className="h-6 w-32 bg-muted/50 rounded-lg animate-pulse" /></TableCell>
+                  <TableCell className="py-6 px-8 text-right"><div className="h-10 w-20 bg-muted/50 rounded-lg animate-pulse float-right" /></TableCell>
                 </TableRow>
               ))
             ) : filteredUsers.length === 0 ? (
@@ -109,14 +109,14 @@ export default function AdminUsersPage() {
                 </TableCell>
               </TableRow>
             ) : filteredUsers.map((user) => (
-              <TableRow key={user.id} className="group hover:bg-white/5 border-white/5 transition-colors">
+              <TableRow key={user.id} className="group hover:bg-muted/50 border-border/50 transition-colors">
                 <TableCell className="py-6 px-8">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary font-black text-lg">
                       {user.name?.[0] || 'U'}
                     </div>
                     <div className="flex flex-col">
-                      <span className="font-bold text-white">{user.name}</span>
+                      <span className="font-bold text-foreground">{user.name}</span>
                       <span className="text-xs text-muted-foreground">{user.email}</span>
                     </div>
                   </div>
@@ -128,7 +128,7 @@ export default function AdminUsersPage() {
                       "text-[10px] uppercase font-black px-3 py-1 border-opacity-50",
                       user.role === 'admin' 
                         ? 'border-primary text-primary bg-primary/5' 
-                        : 'border-white/20 text-white bg-white/5'
+                        : 'border-border/50 text-foreground bg-muted'
                     )}
                   >
                     {user.role}

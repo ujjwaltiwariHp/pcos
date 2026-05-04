@@ -8,9 +8,8 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-[#06070B] text-white relative flex flex-col items-center justify-center overflow-hidden">
-      {/* Premium Blue Gradient Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,#0A1D3D_0%,#06070B_100%)] opacity-70" />
+    <div className="min-h-screen bg-background text-foreground relative flex flex-col items-center justify-center overflow-hidden">
+      {/* Premium Gradient Background (handled by theme or starry-bg) */}
       <StarryBackground />
       
       {/* Dynamic Glow Orbs */}

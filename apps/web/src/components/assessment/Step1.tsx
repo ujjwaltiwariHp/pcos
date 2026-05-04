@@ -34,7 +34,7 @@ export function Step1() {
             id="age"
             type="number"
             placeholder="e.g. 25"
-            className="h-14 rounded-2xl bg-white/5 border-white/10 focus:border-primary/50 transition-all font-bold text-lg"
+            className="h-14 rounded-2xl bg-muted/30 border-border/50 focus:border-primary/50 transition-all font-bold text-lg"
             value={personalData.age || ''}
             onChange={(e) => setPersonalData({ age: parseInt(e.target.value) || 0 })}
           />
@@ -45,7 +45,7 @@ export function Step1() {
             id="height"
             type="number"
             placeholder="e.g. 165"
-            className="h-14 rounded-2xl bg-white/5 border-white/10 focus:border-primary/50 transition-all font-bold text-lg"
+            className="h-14 rounded-2xl bg-muted/30 border-border/50 focus:border-primary/50 transition-all font-bold text-lg"
             value={personalData.height || ''}
             onChange={(e) => setPersonalData({ height: parseInt(e.target.value) || 0 })}
           />
@@ -56,7 +56,7 @@ export function Step1() {
             id="weight"
             type="number"
             placeholder="e.g. 60"
-            className="h-14 rounded-2xl bg-white/5 border-white/10 focus:border-primary/50 transition-all font-bold text-lg"
+            className="h-14 rounded-2xl bg-muted/30 border-border/50 focus:border-primary/50 transition-all font-bold text-lg"
             value={personalData.weight || ''}
             onChange={(e) => setPersonalData({ weight: parseInt(e.target.value) || 0 })}
           />

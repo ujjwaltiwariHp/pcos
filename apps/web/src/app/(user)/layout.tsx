@@ -15,7 +15,7 @@ export default function UserLayout({
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#06070B] text-white relative">
+    <div className="flex h-screen overflow-hidden bg-background text-foreground relative">
       <StarryBackground />
       
       {/* Dynamic Glow Orbs */}

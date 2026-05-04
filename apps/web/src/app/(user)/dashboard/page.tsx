@@ -164,7 +164,7 @@ export default function DashboardPage() {
 
       {/* Health Trend Chart */}
       {assessments.length > 1 && (
-        <div className="glass rounded-[2.5rem] border border-white/5 p-8 shadow-2xl relative overflow-hidden">
+        <div className="glass rounded-[2.5rem] border border-border/50 p-8 shadow-2xl relative overflow-hidden">
           <div className="flex items-center justify-between mb-8">
             <div className="space-y-1">
               <h3 className="text-xl font-bold tracking-tight">Risk Trend Analysis</h3>
@@ -186,17 +186,19 @@ export default function DashboardPage() {
                     <stop offset="95%" stopColor="var(--primary)" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
                 <XAxis 
                   dataKey="date" 
-                  stroke="#ffffff20" 
+                  stroke="currentColor" 
+                  opacity={0.5}
                   fontSize={10} 
                   tickLine={false} 
                   axisLine={false} 
                   dy={10}
                 />
                 <YAxis 
-                  stroke="#ffffff20" 
+                  stroke="currentColor" 
+                  opacity={0.5}
                   fontSize={10} 
                   tickLine={false} 
                   axisLine={false}
@@ -204,12 +206,12 @@ export default function DashboardPage() {
                 />
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: '#0A0D14', 
-                    border: '1px solid #ffffff10', 
+                    backgroundColor: 'hsl(var(--card))', 
+                    border: '1px solid var(--border)', 
                     borderRadius: '12px',
                     fontSize: '12px'
                   }}
-                  itemStyle={{ color: 'white', fontWeight: 'bold' }}
+                  itemStyle={{ color: 'currentColor', fontWeight: 'bold' }}
                 />
                 <Area 
                   type="monotone" 
@@ -234,11 +236,11 @@ export default function DashboardPage() {
             <Button variant="link" className="text-primary font-bold">Export Data</Button>
           </div>
           
-          <div className="glass rounded-[2rem] border border-white/5 overflow-hidden">
+          <div className="glass rounded-[2rem] border border-border/50 overflow-hidden">
             {assessments.length > 0 ? (
               <Table>
-                <TableHeader className="bg-white/5">
-                  <TableRow className="hover:bg-transparent border-white/5">
+                <TableHeader className="bg-muted/30">
+                  <TableRow className="hover:bg-transparent border-border/50">
                     <TableHead className="font-black uppercase tracking-widest text-[10px] py-6 px-8">Score</TableHead>
                     <TableHead className="font-black uppercase tracking-widest text-[10px] py-6">Risk Level</TableHead>
                     <TableHead className="font-black uppercase tracking-widest text-[10px] py-6">Date & Time</TableHead>
@@ -247,7 +249,7 @@ export default function DashboardPage() {
                 </TableHeader>
                 <TableBody>
                   {assessments.slice(0, 5).map((a) => (
-                    <TableRow key={a.id} className="group hover:bg-white/5 border-white/5 transition-colors cursor-pointer" onClick={() => router.push(`/results/${a.id}`)}>
+                    <TableRow key={a.id} className="group hover:bg-muted/50 border-border/50 transition-colors cursor-pointer" onClick={() => router.push(`/results/${a.id}`)}>
                       <TableCell className="py-6 px-8">
                         <div className={cn(
                           "w-12 h-12 rounded-xl flex items-center justify-center font-black text-lg",
@@ -285,7 +287,7 @@ export default function DashboardPage() {
                           >
                             <Eye className="w-5 h-5" />
                           </Button>
-                          <Button variant="ghost" size="icon" className="rounded-xl hover:bg-white/10" onClick={(e) => e.stopPropagation()}>
+                          <Button variant="ghost" size="icon" className="rounded-xl hover:bg-muted" onClick={(e) => e.stopPropagation()}>
                             <MoreHorizontal className="w-5 h-5" />
                           </Button>
                         </div>
@@ -311,14 +313,14 @@ export default function DashboardPage() {
 
         {/* Sidebar Cards */}
         <div className="space-y-8">
-          <div className="glass rounded-[2rem] p-8 border border-white/5 space-y-6">
+          <div className="glass rounded-[2rem] p-8 border border-border/50 space-y-6">
             <h3 className="text-xl font-bold tracking-tight">Pro Health Tips</h3>
             <div className="space-y-4">
               {[
                 { title: "Consistency is Key", desc: "Regular assessments help track how lifestyle changes affect your risk factors.", icon: Heart },
                 { title: "Expert Consultation", desc: "Share these results with your doctor for a detailed clinical diagnosis.", icon: ShieldCheck }
               ].map((tip, i) => (
-                <div key={i} className="flex gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
+                <div key={i} className="flex gap-4 p-4 rounded-2xl bg-muted/20 border border-border/50 hover:bg-muted/40 transition-colors">
                   <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
                     <tip.icon className="w-5 h-5 text-primary" />
                   </div>

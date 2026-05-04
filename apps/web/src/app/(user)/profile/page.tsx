@@ -64,7 +64,7 @@ export default function ProfilePage() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="md:col-span-1 space-y-6">
-          <div className="glass rounded-[2.5rem] p-8 border border-white/5 text-center flex flex-col items-center gap-6">
+          <div className="glass rounded-[2.5rem] p-8 border border-border/50 text-center flex flex-col items-center gap-6">
             <div className="w-24 h-24 rounded-[2rem] bg-primary/10 flex items-center justify-center text-4xl font-black text-primary shadow-2xl shadow-primary/20">
               {user?.name?.[0] || 'U'}
             </div>
@@ -88,8 +88,8 @@ export default function ProfilePage() {
         </div>
 
         <div className="md:col-span-2">
-          <div className="glass rounded-[2.5rem] border border-white/5 overflow-hidden">
-            <div className="p-8 md:p-10 border-b border-white/5 bg-white/[0.02]">
+          <div className="glass rounded-[2.5rem] border border-border/50 overflow-hidden">
+            <div className="p-8 md:p-10 border-b border-border/50 bg-muted/10">
               <h3 className="text-2xl font-black tracking-tight">Personal Details</h3>
               <p className="text-sm text-muted-foreground font-medium">Update your name and primary email address.</p>
             </div>
@@ -102,7 +102,7 @@ export default function ProfilePage() {
                     <Input 
                       id="name" 
                       defaultValue={user?.name} 
-                      className="pl-12 h-14 bg-white/5 border-white/10 rounded-2xl focus:ring-primary/20"
+                      className="pl-12 h-14 bg-muted/30 border-border/50 rounded-2xl focus:ring-primary/20"
                     />
                   </div>
                 </div>
@@ -114,7 +114,7 @@ export default function ProfilePage() {
                       id="email" 
                       type="email" 
                       defaultValue={user?.email} 
-                      className="pl-12 h-14 bg-white/5 border-white/10 rounded-2xl focus:ring-primary/20"
+                      className="pl-12 h-14 bg-muted/30 border-border/50 rounded-2xl focus:ring-primary/20"
                       disabled
                     />
                   </div>

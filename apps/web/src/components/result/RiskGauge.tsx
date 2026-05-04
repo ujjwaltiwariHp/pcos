@@ -33,7 +33,7 @@ export function RiskGauge({ score }: { score: number }) {
           stroke="currentColor"
           strokeWidth="14"
           fill="transparent"
-          className="text-white/5"
+          className="text-border/50"
         />
         <circle
           cx="112"

@@ -53,7 +53,7 @@ export default function AdminDashboardPage() {
     <div className="space-y-10">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="space-y-2">
-          <h1 className="text-4xl font-extrabold tracking-tight text-white">System Overview</h1>
+          <h1 className="text-4xl font-extrabold tracking-tight text-foreground">System Overview</h1>
           <p className="text-muted-foreground text-lg font-medium">Real-time health assessment analytics and user management.</p>
         </div>
         <Button 
@@ -74,7 +74,7 @@ export default function AdminDashboardPage() {
               toast.error("Failed to export data");
             }
           }}
-          className="rounded-2xl h-14 px-8 border-white/10 hover:bg-white/5 font-bold gap-2"
+          className="rounded-2xl h-14 px-8 border-border/50 hover:bg-muted font-bold gap-2"
         >
           <Download className="h-5 w-5" /> Export All Data
         </Button>
@@ -100,14 +100,14 @@ export default function AdminDashboardPage() {
 
       <div className="space-y-6">
         <div className="flex items-center justify-between px-2">
-          <h3 className="text-xl font-bold tracking-tight text-white">Master Assessment Feed</h3>
+          <h3 className="text-xl font-bold tracking-tight text-foreground">Master Assessment Feed</h3>
           <Button variant="link" className="text-primary font-bold">View Full Logs</Button>
         </div>
         
-        <div className="glass rounded-[2rem] border border-white/5 overflow-hidden shadow-2xl">
+        <div className="glass rounded-[2rem] border border-border/50 overflow-hidden shadow-2xl">
           <Table>
-            <TableHeader className="bg-white/5">
-              <TableRow className="hover:bg-transparent border-white/5">
+            <TableHeader className="bg-muted/30">
+              <TableRow className="hover:bg-transparent border-border/50">
                 <TableHead className="font-black uppercase tracking-widest text-[10px] py-6 px-8">ID</TableHead>
                 <TableHead className="font-black uppercase tracking-widest text-[10px] py-6">User Reference</TableHead>
                 <TableHead className="font-black uppercase tracking-widest text-[10px] py-6 text-center">Risk Score</TableHead>
@@ -117,7 +117,7 @@ export default function AdminDashboardPage() {
             </TableHeader>
             <TableBody>
               {stats?.recentActivity.map((a: any) => (
-                <TableRow key={a.id} className="group hover:bg-white/5 border-white/5 transition-colors">
+                <TableRow key={a.id} className="group hover:bg-muted/50 border-border/50 transition-colors">
                   <TableCell className="py-6 px-8 font-mono text-[11px] text-muted-foreground/80">
                     {a.id.substring(0, 8)}...
                   </TableCell>
@@ -154,7 +154,7 @@ export default function AdminDashboardPage() {
                       <Button variant="ghost" size="icon" className="rounded-xl hover:bg-primary/10 hover:text-primary">
                         <Eye className="w-5 h-5" />
                       </Button>
-                      <Button variant="ghost" size="icon" className="rounded-xl hover:bg-white/10">
+                      <Button variant="ghost" size="icon" className="rounded-xl hover:bg-muted">
                         <MoreHorizontal className="w-5 h-5" />
                       </Button>
                     </div>

@@ -45,9 +45,9 @@ export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
   };
 
   return (
-    <header className="h-20 border-b border-white/5 dark:border-white/5 bg-background/80 backdrop-blur-xl sticky top-0 z-40 flex items-center justify-between px-4 md:px-8">
+    <header className="h-20 border-b border-border bg-background/80 backdrop-blur-xl sticky top-0 z-40 flex items-center justify-between px-4 md:px-8">
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" className="lg:hidden hover:bg-white/5" onClick={onMenuClick}>
+        <Button variant="ghost" size="icon" className="lg:hidden hover:bg-muted" onClick={onMenuClick}>
           <Menu className="w-6 h-6" />
         </Button>
         <h2 className="text-xl font-black capitalize tracking-tight hidden sm:block">
@@ -60,7 +60,7 @@ export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
           <Input 
             placeholder="Search health records..." 
-            className="pl-12 h-12 bg-white/5 border-white/10 rounded-2xl focus:ring-primary/20 transition-all"
+            className="pl-12 h-12 bg-muted/30 border-border/50 rounded-2xl focus:ring-primary/20 transition-all"
           />
         </div>
       </div>
@@ -69,7 +69,7 @@ export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
         <ModeToggle />
 
         <DropdownMenu>
-          <DropdownMenuTrigger className="flex items-center gap-3 pl-2 pr-2 md:pr-4 py-1.5 hover:bg-white/5 rounded-full transition-all outline-none group border border-transparent hover:border-white/5">
+          <DropdownMenuTrigger className="flex items-center gap-3 pl-2 pr-2 md:pr-4 py-1.5 hover:bg-muted rounded-full transition-all outline-none group border border-transparent hover:border-border/50">
             <div className="w-9 h-9 bg-primary/10 rounded-full flex items-center justify-center border border-primary/20 group-hover:scale-105 transition-transform">
               <User className="w-5 h-5 text-primary" />
             </div>
@@ -78,7 +78,7 @@ export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
               <p className="text-[10px] text-muted-foreground mt-1 uppercase font-black tracking-widest">{user?.role || "User"} Account</p>
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-72 glass-darker rounded-[2rem] border-white/10 p-2 shadow-2xl mt-2 animate-in fade-in zoom-in-95 duration-200">
+          <DropdownMenuContent align="end" className="w-72 glass-darker rounded-[2rem] border-border/50 p-2 shadow-2xl mt-2 animate-in fade-in zoom-in-95 duration-200">
             <div className="p-4 flex flex-col items-center text-center gap-3">
               <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-2xl font-black text-primary">
                 {user?.name?.[0] || user?.email?.[0]?.toUpperCase() || "U"}
@@ -93,14 +93,14 @@ export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
               </div>
             </div>
             
-            <DropdownMenuSeparator className="bg-white/5 mx-2" />
+            <DropdownMenuSeparator className="bg-border/50 mx-2" />
             
             <div className="p-2 grid gap-1">
-              <DropdownMenuItem className="rounded-xl py-3 px-4 gap-3 cursor-pointer hover:bg-white/5 focus:bg-white/5 transition-colors">
+              <DropdownMenuItem className="rounded-xl py-3 px-4 gap-3 cursor-pointer hover:bg-muted focus:bg-muted transition-colors">
                 <UserCircle className="w-4 h-4 text-muted-foreground" />
                 <span className="text-sm font-bold">Profile Details</span>
               </DropdownMenuItem>
-              <DropdownMenuItem className="rounded-xl py-3 px-4 gap-3 cursor-pointer hover:bg-white/5 focus:bg-white/5 transition-colors">
+              <DropdownMenuItem className="rounded-xl py-3 px-4 gap-3 cursor-pointer hover:bg-muted focus:bg-muted transition-colors">
                 <Shield className="w-4 h-4 text-muted-foreground" />
                 <span className="text-sm font-bold">Account Security</span>
               </DropdownMenuItem>
@@ -112,7 +112,7 @@ export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
               </div>
             </div>
             
-            <DropdownMenuSeparator className="bg-white/5 mx-2" />
+            <DropdownMenuSeparator className="bg-border/50 mx-2" />
             
             <div className="p-2">
               <DropdownMenuItem 

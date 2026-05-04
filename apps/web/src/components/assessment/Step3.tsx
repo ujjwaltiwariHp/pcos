@@ -53,7 +53,7 @@ export function Step3() {
                 placeholder="Enter value"
                 value={hormonalData[hormone.id] || ''}
                 onChange={(e) => handleInputChange(hormone.id, e.target.value)}
-                className="h-14 rounded-2xl bg-white/5 border-white/10 focus:border-primary/50 transition-all font-bold text-lg pr-20"
+                className="h-14 rounded-2xl bg-muted/30 border-border/50 focus:border-primary/50 transition-all font-bold text-lg pr-20"
               />
               <div className="absolute inset-y-0 right-5 flex items-center pointer-events-none text-[10px] font-black uppercase tracking-widest text-muted-foreground/40">
                 {hormone.unit}
@@ -66,7 +66,7 @@ export function Step3() {
         <Button 
           variant="outline" 
           onClick={() => setStep(2)}
-          className="rounded-2xl h-14 px-8 border-white/10 hover:bg-white/5 font-bold gap-2"
+          className="rounded-2xl h-14 px-8 border-border/50 hover:bg-muted font-bold gap-2"
         >
           <ChevronLeft className="w-5 h-5" /> Back
         </Button>

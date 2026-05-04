@@ -42,7 +42,7 @@ export function Step2() {
               "group flex items-center space-x-3 p-4 rounded-2xl border transition-all cursor-pointer",
               symptomsData[symptom.id] 
                 ? "bg-primary/10 border-primary shadow-lg shadow-primary/5" 
-                : "bg-white/5 border-white/5 hover:border-white/10 hover:bg-white/10"
+                : "bg-muted/30 border-border/50 hover:border-border hover:bg-muted/50"
             )}
             onClick={() => handleToggle(symptom.id)}
           >
@@ -54,7 +54,7 @@ export function Step2() {
             />
             <Label 
               htmlFor={symptom.id} 
-              className="text-sm font-bold leading-tight cursor-pointer group-hover:text-white transition-colors"
+              className="text-sm font-bold leading-tight cursor-pointer group-hover:text-foreground transition-colors"
             >
               {symptom.label}
             </Label>
@@ -65,7 +65,7 @@ export function Step2() {
         <Button 
           variant="outline" 
           onClick={() => setStep(1)}
-          className="rounded-2xl h-14 px-8 border-white/10 hover:bg-white/5 font-bold gap-2"
+          className="rounded-2xl h-14 px-8 border-border/50 hover:bg-muted font-bold gap-2"
         >
           <ChevronLeft className="w-5 h-5" /> Back
         </Button>

@@ -47,7 +47,7 @@ export default function UserResultsHistoryPage() {
     <div className="space-y-10 pb-20">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="space-y-2">
-          <h1 className="text-4xl font-extrabold tracking-tight text-white">Assessment History</h1>
+          <h1 className="text-4xl font-extrabold tracking-tight text-foreground">Assessment History</h1>
           <p className="text-muted-foreground text-lg font-medium">Track your health journey over time and review past AI insights.</p>
         </div>
         <Link href="/assessment">
@@ -62,29 +62,29 @@ export default function UserResultsHistoryPage() {
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="h-48 bg-white/5 rounded-[2rem] animate-pulse border border-white/5" />
+            <div key={i} className="h-48 bg-muted/20 rounded-[2rem] animate-pulse border border-border/50" />
           ))}
         </div>
       ) : assessments.length === 0 ? (
-        <div className="glass rounded-[3rem] border border-white/5 py-24 px-8 text-center flex flex-col items-center gap-6">
+        <div className="glass rounded-[3rem] border border-border/50 py-24 px-8 text-center flex flex-col items-center gap-6">
           <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center">
             <FileText className="w-10 h-10 text-primary/40" />
           </div>
           <div className="space-y-2">
-            <h3 className="text-2xl font-bold text-white">No assessments yet</h3>
+            <h3 className="text-2xl font-bold text-foreground">No assessments yet</h3>
             <p className="text-muted-foreground max-w-sm mx-auto">You haven't completed any health assessments yet. Start your first one to get AI-powered insights.</p>
           </div>
           <Link href="/assessment">
-            <Button variant="outline" className="rounded-xl px-8 border-white/10 hover:bg-white/5 font-bold">
+            <Button variant="outline" className="rounded-xl px-8 border-border/50 hover:bg-muted font-bold">
               Begin Now
             </Button>
           </Link>
         </div>
       ) : (
-        <div className="glass rounded-[2rem] border border-white/5 overflow-hidden shadow-2xl">
+        <div className="glass rounded-[2rem] border border-border/50 overflow-hidden shadow-2xl">
           <Table>
-            <TableHeader className="bg-white/5">
-              <TableRow className="hover:bg-transparent border-white/5">
+            <TableHeader className="bg-muted/30">
+              <TableRow className="hover:bg-transparent border-border/50">
                 <TableHead className="font-black uppercase tracking-widest text-[10px] py-6 px-8">Date</TableHead>
                 <TableHead className="font-black uppercase tracking-widest text-[10px] py-6 text-center">Risk Level</TableHead>
                 <TableHead className="font-black uppercase tracking-widest text-[10px] py-6">Score</TableHead>
@@ -93,14 +93,14 @@ export default function UserResultsHistoryPage() {
             </TableHeader>
             <TableBody>
               {assessments.map((a) => (
-                <TableRow key={a.id} className="group hover:bg-white/5 border-white/5 transition-colors">
+                <TableRow key={a.id} className="group hover:bg-muted/50 border-border/50 transition-colors">
                   <TableCell className="py-6 px-8">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center">
                         <Calendar className="w-5 h-5 text-muted-foreground/60" />
                       </div>
                       <div className="flex flex-col">
-                        <span className="font-bold text-white/90">{new Date(a.createdAt).toLocaleDateString(undefined, { month: 'long', day: 'numeric' })}</span>
+                        <span className="font-bold text-foreground/90">{new Date(a.createdAt).toLocaleDateString(undefined, { month: 'long', day: 'numeric' })}</span>
                         <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-black">{new Date(a.createdAt).getFullYear()}</span>
                       </div>
                     </div>

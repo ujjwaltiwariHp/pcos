@@ -105,12 +105,12 @@ export function Step4() {
         </div>
       </div>
 
-      <div className="flex justify-between pt-8 border-t border-white/5">
+      <div className="flex justify-between pt-8 border-t border-border/50">
         <Button 
           variant="outline" 
           onClick={() => setStep(3)} 
           disabled={isSubmitting}
-          className="rounded-2xl h-14 px-8 border-white/10 hover:bg-white/5 font-bold gap-2"
+          className="rounded-2xl h-14 px-8 border-border/50 hover:bg-muted font-bold gap-2"
         >
           <ChevronLeft className="w-5 h-5" /> Back
         </Button>
