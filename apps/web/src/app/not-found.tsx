@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { SearchX, Home, ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 export default function NotFound() {
   return (
@@ -23,18 +23,14 @@ export default function NotFound() {
       </p>
       
       <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-        <Button asChild variant="default" size="lg" className="gap-2">
-          <Link href="/">
-            <Home className="w-4 h-4" />
-            Back to Home
-          </Link>
-        </Button>
-        <Button asChild variant="outline" size="lg" className="gap-2" onClick={() => window.history.back()}>
-          <button type="button">
-            <ArrowLeft className="w-4 h-4" />
-            Go Back
-          </button>
-        </Button>
+        <Link href="/" className={buttonVariants({ variant: "default", size: "lg", className: "gap-2" })}>
+          <Home className="w-4 h-4" />
+          Back to Home
+        </Link>
+        <button type="button" onClick={() => window.history.back()} className={buttonVariants({ variant: "outline", size: "lg", className: "gap-2" })}>
+          <ArrowLeft className="w-4 h-4" />
+          Go Back
+        </button>
       </div>
     </div>
   );

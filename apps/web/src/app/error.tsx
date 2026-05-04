@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { AlertCircle, RefreshCcw, Home } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 export default function ErrorPage({
   error,
@@ -39,12 +39,10 @@ export default function ErrorPage({
           <RefreshCcw className="w-4 h-4" />
           Try Again
         </Button>
-        <Button asChild variant="outline" size="lg" className="gap-2">
-          <Link href="/">
-            <Home className="w-4 h-4" />
-            Return Home
-          </Link>
-        </Button>
+        <Link href="/" className={buttonVariants({ variant: "outline", size: "lg", className: "gap-2" })}>
+          <Home className="w-4 h-4" />
+          Return Home
+        </Link>
       </div>
     </div>
   );
