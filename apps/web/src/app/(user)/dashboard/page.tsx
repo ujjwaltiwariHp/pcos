@@ -336,16 +336,6 @@ export default function DashboardPage() {
             </Button>
           </div>
 
-          <div className="bg-primary rounded-[2rem] p-8 text-primary-foreground shadow-2xl shadow-primary/20 relative overflow-hidden group">
-            <div className="relative z-10">
-              <h3 className="text-xl font-black mb-2">Upgrade to Pro</h3>
-              <p className="text-sm text-primary-foreground/80 font-medium mb-6 leading-relaxed">Unlock advanced AI analysis and personalized wellness plans.</p>
-              <Button className="w-full bg-white text-primary hover:bg-white/90 rounded-xl font-bold h-12 shadow-lg">
-                Upgrade Now
-              </Button>
-            </div>
-            <Activity className="absolute -bottom-10 -right-10 w-40 h-40 text-white/10 group-hover:scale-110 transition-transform duration-500" />
-          </div>
         </div>
       </div>
     </div>

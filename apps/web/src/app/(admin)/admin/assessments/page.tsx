@@ -98,7 +98,7 @@ export default function AdminAssessmentsPage() {
           <TableHeader className="bg-muted/30">
             <TableRow className="hover:bg-transparent border-border/50">
               <TableHead className="font-black uppercase tracking-widest text-[10px] py-6 px-8">Assessment ID</TableHead>
-              <TableHead className="font-black uppercase tracking-widest text-[10px] py-6">User Ref</TableHead>
+              <TableHead className="font-black uppercase tracking-widest text-[10px] py-6">Patient Info</TableHead>
               <TableHead className="font-black uppercase tracking-widest text-[10px] py-6 text-center">AI Risk Score</TableHead>
               <TableHead className="font-black uppercase tracking-widest text-[10px] py-6">Level</TableHead>
               <TableHead className="font-black uppercase tracking-widest text-[10px] py-6">Date</TableHead>
@@ -124,9 +124,14 @@ export default function AdminAssessmentsPage() {
                   #{a.id.substring(0, 12)}
                 </TableCell>
                 <TableCell className="py-6">
-                  <div className="flex items-center gap-2 text-sm font-bold text-foreground/90">
-                    <User className="w-3.5 h-3.5 text-primary" />
-                    {a.userId.substring(0, 8)}...
+                  <div className="flex flex-col">
+                    <span className="text-sm font-bold text-foreground/90 flex items-center gap-2">
+                      <User className="w-3.5 h-3.5 text-primary" />
+                      {a.user?.name || "Unknown User"}
+                    </span>
+                    <span className="text-xs text-muted-foreground mt-1 uppercase tracking-widest font-black">
+                      {a.personalData?.age ? `${a.personalData.age} Years Old` : "Age N/A"}
+                    </span>
                   </div>
                 </TableCell>
                 <TableCell className="py-6 text-center">

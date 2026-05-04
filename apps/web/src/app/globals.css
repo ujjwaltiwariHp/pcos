@@ -203,3 +203,9 @@
     box-shadow: none !important;
   }
 }
+
+@media print {
+  @page {
+    margin: 15mm;
+  }
+}

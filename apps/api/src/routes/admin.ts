@@ -114,6 +114,14 @@ router.get('/assessments', async (req, res) => {
   try {
     const allAssessments = await db.query.assessments.findMany({
       orderBy: [desc(assessments.createdAt)],
+      with: {
+        user: {
+          columns: {
+            name: true,
+            email: true,
+          }
+        }
+      }
     });
     res.json({ assessments: allAssessments });
   } catch (error) {

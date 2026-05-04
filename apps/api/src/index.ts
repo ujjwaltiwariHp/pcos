@@ -22,7 +22,7 @@ const limiter = rateLimit({
   message: { message: 'Too many requests from this IP, please try again after 15 minutes' }
 });
 
-app.use(limiter);
+// app.use(limiter);
 
 const allowedOrigins = [
   'http://localhost:3000',
