@@ -22,7 +22,7 @@ export const logAudit = (action: string, resourceType: string) => {
             status: res.statusCode,
             ip: req.ip,
           }
-        }).catch(err => console.error('Failed to log audit:', err));
+        }).catch((err: any) => console.error('Failed to log audit:', err));
       }
 
       return originalJson.call(this, body);
