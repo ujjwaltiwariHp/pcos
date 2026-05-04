@@ -1,0 +1,19 @@
+{
+  "name": "pcos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "setup:db": "pnpm --filter db db:push && pnpm --filter db seed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.33.2",
+  "devDependencies": {
+    "turbo": "^2.9.8"
+  }
+}
