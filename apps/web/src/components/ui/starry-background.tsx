@@ -35,7 +35,7 @@ export function StarryBackground() {
           />
         ))}
       </div>
-      <div className="absolute inset-0 bg-gradient-to-t from-[#090A0F] via-transparent to-transparent opacity-60" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
     </div>
   );
 }

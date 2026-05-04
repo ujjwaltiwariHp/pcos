@@ -17,6 +17,8 @@ import { fetchApi } from "@/lib/api";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
+import { ModeToggle } from "@/components/mode-toggle";
+
 export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -43,7 +45,7 @@ export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
   };
 
   return (
-    <header className="h-20 border-b border-white/5 bg-background/80 backdrop-blur-xl sticky top-0 z-40 flex items-center justify-between px-4 md:px-8">
+    <header className="h-20 border-b border-white/5 dark:border-white/5 bg-background/80 backdrop-blur-xl sticky top-0 z-40 flex items-center justify-between px-4 md:px-8">
       <div className="flex items-center gap-4">
         <Button variant="ghost" size="icon" className="lg:hidden hover:bg-white/5" onClick={onMenuClick}>
           <Menu className="w-6 h-6" />
@@ -64,22 +66,17 @@ export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
       </div>
 
       <div className="flex items-center gap-2 md:gap-4">
-        <Button variant="ghost" size="icon" className="relative hover:bg-white/5 rounded-full">
-          <Bell className="w-5 h-5 text-muted-foreground" />
-          <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full border-2 border-[#06070B]" />
-        </Button>
+        <ModeToggle />
 
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button className="flex items-center gap-3 pl-2 pr-2 md:pr-4 py-1.5 hover:bg-white/5 rounded-full transition-all outline-none group border border-transparent hover:border-white/5">
-              <div className="w-9 h-9 bg-primary/10 rounded-full flex items-center justify-center border border-primary/20 group-hover:scale-105 transition-transform">
-                <User className="w-5 h-5 text-primary" />
-              </div>
-              <div className="hidden md:block text-left">
-                <p className="text-sm font-black leading-none text-white/90">{user?.name || "Loading..."}</p>
-                <p className="text-[10px] text-muted-foreground mt-1 uppercase font-black tracking-widest">{user?.role || "User"} Account</p>
-              </div>
-            </button>
+          <DropdownMenuTrigger className="flex items-center gap-3 pl-2 pr-2 md:pr-4 py-1.5 hover:bg-white/5 rounded-full transition-all outline-none group border border-transparent hover:border-white/5">
+            <div className="w-9 h-9 bg-primary/10 rounded-full flex items-center justify-center border border-primary/20 group-hover:scale-105 transition-transform">
+              <User className="w-5 h-5 text-primary" />
+            </div>
+            <div className="hidden md:block text-left">
+              <p className="text-sm font-black leading-none text-foreground/90">{user?.name || "Loading..."}</p>
+              <p className="text-[10px] text-muted-foreground mt-1 uppercase font-black tracking-widest">{user?.role || "User"} Account</p>
+            </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-72 glass-darker rounded-[2rem] border-white/10 p-2 shadow-2xl mt-2 animate-in fade-in zoom-in-95 duration-200">
             <div className="p-4 flex flex-col items-center text-center gap-3">
@@ -87,7 +84,7 @@ export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
                 {user?.name?.[0] || user?.email?.[0]?.toUpperCase() || "U"}
               </div>
               <div className="space-y-1">
-                <h4 className="font-black text-white text-lg">{user?.name}</h4>
+                <h4 className="font-black text-foreground text-lg">{user?.name}</h4>
                 <p className="text-xs font-medium text-muted-foreground">{user?.email}</p>
               </div>
               <div className="flex items-center gap-2 px-3 py-1 bg-emerald-500/10 rounded-full border border-emerald-500/20">
