@@ -191,7 +191,7 @@
   nav, .sidebar, button, header, footer {
     display: none !important;
   }
-  body, main, div {
+  body, main {
     background: white !important;
     color: black !important;
     box-shadow: none !important;

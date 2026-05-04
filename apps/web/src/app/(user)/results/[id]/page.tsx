@@ -61,7 +61,8 @@ export default function ResultsPage() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-10 py-6">
+    <>
+      <div className="print:hidden max-w-5xl mx-auto space-y-10 py-6">
       <div className="flex flex-col md:flex-row items-center justify-between gap-6">
         <Button 
           variant="ghost" 
@@ -183,7 +184,94 @@ export default function ResultsPage() {
           </div>
           <Heart className="absolute -bottom-10 -right-10 w-48 h-48 text-white/5 group-hover:scale-110 transition-transform duration-700" />
         </div>
+        </div>
       </div>
-    </div>
+
+      {/* PRINT ONLY: Medical Report */}
+      <div className="hidden print:block p-8 bg-white text-black font-sans w-full">
+        <div className="border-b-2 border-black pb-6 mb-6 flex justify-between items-end">
+          <div>
+            <h1 className="text-4xl font-black uppercase tracking-widest text-black">PCOS AI</h1>
+            <p className="text-lg font-bold text-gray-500">Clinical Health Assessment Report</p>
+          </div>
+          <div className="text-right text-sm font-medium">
+            <p>Report ID: {assessment.id}</p>
+            <p>Date: {new Date(assessment.createdAt).toLocaleDateString()}</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-8 mb-8">
+          <div className="border border-gray-300 p-4 rounded-xl">
+            <h3 className="text-sm font-black uppercase tracking-widest text-gray-500 mb-3">Patient Details</h3>
+            <div className="space-y-1 text-sm font-bold">
+              <p><span className="text-gray-500">Name:</span> {assessment.user?.name || 'N/A'}</p>
+              <p><span className="text-gray-500">Email:</span> {assessment.user?.email || 'N/A'}</p>
+              <p><span className="text-gray-500">Age:</span> {assessment.personalData?.age} years</p>
+            </div>
+          </div>
+          <div className="border border-gray-300 p-4 rounded-xl">
+            <h3 className="text-sm font-black uppercase tracking-widest text-gray-500 mb-3">Vitals & Biometrics</h3>
+            <div className="space-y-1 text-sm font-bold">
+              <p><span className="text-gray-500">Height:</span> {assessment.personalData?.height} cm</p>
+              <p><span className="text-gray-500">Weight:</span> {assessment.personalData?.weight} kg</p>
+              <p><span className="text-gray-500">BMI:</span> {assessment.personalData?.bmi}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-gray-100 border border-gray-300 p-6 rounded-xl mb-8 flex items-center justify-between">
+          <div>
+            <h3 className="text-sm font-black uppercase tracking-widest text-gray-500 mb-1">Diagnostic Score</h3>
+            <p className="text-4xl font-black">{riskScore}/100</p>
+          </div>
+          <div className="text-right">
+            <h3 className="text-sm font-black uppercase tracking-widest text-gray-500 mb-1">Risk Classification</h3>
+            <p className="text-2xl font-black uppercase text-black">{riskLevel} Risk</p>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-lg font-black border-b border-gray-300 pb-2 mb-4">Key Risk Drivers</h3>
+          <ul className="list-disc pl-5 space-y-2 font-medium text-sm">
+            {aiAnalysis.keyFactors?.map((factor: string, i: number) => (
+              <li key={i}>{factor}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-lg font-black border-b border-gray-300 pb-2 mb-4">Reported Symptoms</h3>
+          <div className="grid grid-cols-2 gap-2 text-sm font-medium">
+            {Object.entries(assessment.symptomsData || {}).map(([symptom, value]) => (
+              value ? <div key={symptom}>• {symptom.replace(/([A-Z])/g, ' $1').trim()}</div> : null
+            ))}
+          </div>
+        </div>
+
+        {aiAnalysis.shouldSeeDoctor && (
+          <div className="mb-8 border-2 border-red-500 p-4 rounded-xl text-red-700 bg-red-50">
+            <h3 className="font-black uppercase tracking-widest mb-2">Medical Consultation Recommended</h3>
+            <p className="font-medium text-sm">The AI recommends consulting a healthcare professional {aiAnalysis.urgency} for a clinical evaluation based on the detected risk factors.</p>
+          </div>
+        )}
+
+        <div>
+          <h3 className="text-lg font-black border-b border-gray-300 pb-2 mb-4">Recommended Protocol & Precautions</h3>
+          <div className="space-y-3">
+            {aiAnalysis.recommendations?.map((rec: string, i: number) => (
+              <div key={i} className="flex gap-4">
+                <span className="font-black text-gray-400">{i + 1}.</span>
+                <p className="text-sm font-medium">{rec}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-12 pt-6 border-t border-gray-300 text-[10px] text-gray-500 font-medium uppercase tracking-widest text-center">
+          <p>{aiAnalysis.disclaimer}</p>
+          <p className="mt-2">Generated by PCOS AI System • Not a substitute for professional medical advice</p>
+        </div>
+      </div>
+    </>
   );
 }

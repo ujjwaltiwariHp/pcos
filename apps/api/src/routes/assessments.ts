@@ -72,6 +72,14 @@ router.get('/:id', authenticate, async (req, res) => {
     const assessmentId = req.params.id as string;
     const assessment = await db.query.assessments.findFirst({
       where: eq(assessments.id, assessmentId),
+      with: {
+        user: {
+          columns: {
+            name: true,
+            email: true,
+          }
+        }
+      }
     });
 
     if (!assessment) {

@@ -55,15 +55,17 @@ export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
         </h2>
       </div>
 
-      <div className="hidden md:flex items-center gap-6 flex-1 max-w-md mx-8">
-        <div className="relative w-full group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
-          <Input 
-            placeholder="Search health records..." 
-            className="pl-12 h-12 bg-muted/30 border-border/50 rounded-2xl focus:ring-primary/20 transition-all"
-          />
+      {!pathname.startsWith('/admin') && user?.role !== 'admin' && (
+        <div className="hidden md:flex items-center gap-6 flex-1 max-w-md mx-8">
+          <div className="relative w-full group">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+            <Input 
+              placeholder="Search health records..." 
+              className="pl-12 h-12 bg-muted/30 border-border/50 rounded-2xl focus:ring-primary/20 transition-all"
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="flex items-center gap-2 md:gap-4">
         <ModeToggle />

@@ -9,6 +9,7 @@ import { API_URL, fetchApi } from '@/lib/api';
 import { Users, FileText, BarChart3, Download, Heart, TrendingUp, Eye, MoreHorizontal } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 export default function AdminDashboardPage() {
   const [stats, setStats] = useState<any>(null);
@@ -151,9 +152,11 @@ export default function AdminDashboardPage() {
                   </TableCell>
                   <TableCell className="py-6 px-8 text-right">
                     <div className="flex items-center justify-end gap-2 transition-all duration-300">
-                      <Button variant="ghost" size="icon" className="rounded-xl hover:bg-primary/10 hover:text-primary">
-                        <Eye className="w-5 h-5" />
-                      </Button>
+                      <Link href={`/results/${a.id}`}>
+                        <Button variant="ghost" size="icon" className="rounded-xl hover:bg-primary/10 hover:text-primary">
+                          <Eye className="w-5 h-5" />
+                        </Button>
+                      </Link>
                       <Button variant="ghost" size="icon" className="rounded-xl hover:bg-muted">
                         <MoreHorizontal className="w-5 h-5" />
                       </Button>
