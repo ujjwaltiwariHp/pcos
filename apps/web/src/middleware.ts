@@ -13,7 +13,7 @@ export async function middleware(request: NextRequest) {
   if (pathname === '/login' || pathname === '/') {
     if (token) {
       try {
-        const { payload } = await jwtVerify(token, JWT_SECRET);
+        const { payload } = await jwtVerify(token as string, JWT_SECRET);
         const role = payload.role as string;
         if (role === 'admin') {
           return NextResponse.redirect(new URL('/admin/dashboard', request.url));
@@ -39,7 +39,7 @@ export async function middleware(request: NextRequest) {
   }
 
   try {
-    const { payload } = await jwtVerify(token, JWT_SECRET);
+    const { payload } = await jwtVerify(token as string, JWT_SECRET);
     const role = payload.role as string;
 
     // Admin routes
