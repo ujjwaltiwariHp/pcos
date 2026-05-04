@@ -75,15 +75,8 @@ export function RegisterForm() {
 
       toast.success('Registration successful');
       const redirectPath = '/dashboard';
-      
-      router.push(redirectPath);
-      router.refresh();
-
-      setTimeout(() => {
-        if (window.location.pathname !== redirectPath) {
-          window.location.href = redirectPath;
-        }
-      }, 1000);
+      console.log('Redirecting to:', redirectPath);
+      window.location.replace(redirectPath);
     } catch (error: any) {
       console.error('Registration error:', error);
       toast.error(error.message);

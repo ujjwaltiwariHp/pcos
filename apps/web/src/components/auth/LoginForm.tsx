@@ -65,16 +65,9 @@ export function LoginForm() {
       const redirectPath = data.user.role === 'admin' ? '/admin/dashboard' : '/dashboard';
       console.log('Redirecting to:', redirectPath);
       
-      // Use router.push first, then fallback to window.location if it takes too long
-      router.push(redirectPath);
-      router.refresh();
-      
-      setTimeout(() => {
-        if (window.location.pathname !== redirectPath) {
-          console.log('Manual redirect fallback triggered');
-          window.location.href = redirectPath;
-        }
-      }, 1000);
+      // Use replace to ensure the browser doesn't keep the login page in history
+      // and force a fresh load of the destination
+      window.location.replace(redirectPath);
     } catch (error: any) {
       console.error('Login error:', error);
       toast.error(error.message);
