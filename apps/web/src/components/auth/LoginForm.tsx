@@ -26,26 +26,18 @@ const formSchema = z.object({
   password: z.string().min(1, {
     message: 'Password is required.',
   }),
-  confirmPassword: z.string().min(1, {
-    message: 'Please confirm your password.',
-  }),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
 });
 
 export function LoginForm() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
       password: '',
-      confirmPassword: '',
     },
   });
 
@@ -58,10 +50,7 @@ export function LoginForm() {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({
-          email: values.email,
-          password: values.password,
-        }),
+        body: JSON.stringify(values),
       });
 
       const data = await response.json();
@@ -72,6 +61,7 @@ export function LoginForm() {
 
       toast.success('Login successful');
       
+      // Use full refresh to ensure all layouts re-render with auth state
       if (data.user.role === 'admin') {
         window.location.href = '/admin/dashboard';
       } else {
@@ -86,74 +76,57 @@ export function LoginForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
-          control= {form.control}
+          control={form.control}
           name="email"
-          render= {({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
+          render={({ field }) => (
+            <FormItem className="space-y-2">
+              <FormLabel className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">Email Address</FormLabel>
               <FormControl>
-                <Input placeholder="name@example.com" {...field} />
+                <Input 
+                  placeholder="name@example.com" 
+                  {...field} 
+                  className="h-14 bg-white/5 border-white/10 rounded-2xl focus:ring-primary/20 transition-all"
+                />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-[10px] font-bold uppercase" />
             </FormItem>
           )}
         />
         <FormField
-          control= {form.control}
+          control={form.control}
           name="password"
-          render= {({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
+          render={({ field }) => (
+            <FormItem className="space-y-2">
+              <FormLabel className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">Password</FormLabel>
               <FormControl>
-                <div className="relative">
+                <div className="relative group">
                   <Input 
                     type={showPassword ? "text" : "password"} 
                     placeholder="••••••••" 
                     {...field} 
+                    className="h-14 bg-white/5 border-white/10 rounded-2xl focus:ring-primary/20 transition-all pr-12"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-white transition-colors"
                   >
-                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
                 </div>
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-[10px] font-bold uppercase" />
             </FormItem>
           )}
         />
-        <FormField
-          control= {form.control}
-          name="confirmPassword"
-          render= {({ field }) => (
-            <FormItem>
-              <FormLabel>Confirm Password</FormLabel>
-              <FormControl>
-                <div className="relative">
-                  <Input 
-                    type={showConfirmPassword ? "text" : "password"} 
-                    placeholder="••••••••" 
-                    {...field} 
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                  >
-                    {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                  </button>
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" className="w-full" disabled= {isLoading}>
-          {isLoading ? 'Logging in...' : 'Sign In'}
+        <Button 
+          type="submit" 
+          className="w-full h-14 rounded-2xl bg-primary hover:bg-primary/90 text-primary-foreground font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 transition-all active:scale-[0.98]" 
+          disabled={isLoading}
+        >
+          {isLoading ? 'Processing Access...' : 'Sign In to Portal'}
         </Button>
       </form>
     </Form>
