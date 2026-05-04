@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { API_URL, fetchApi } from '@/lib/api';
-import { Users, FileText, BarChart3, Download, Heart, TrendingUp, Eye, MoreHorizontal } from 'lucide-react';
+import { Users, FileText, BarChart3, Download, Heart, TrendingUp, Eye, MoreHorizontal, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
@@ -29,6 +29,21 @@ export default function AdminDashboardPage() {
 
     fetchStats();
   }, []);
+
+  const handleDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this assessment?')) return;
+    try {
+      await fetchApi(`/admin/assessments/${id}`, { method: 'DELETE' });
+      toast.success('Assessment deleted successfully');
+      setStats({
+        ...stats,
+        recentActivity: stats.recentActivity.filter((a: any) => a.id !== id),
+        totalAssessments: stats.totalAssessments - 1
+      });
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -110,7 +125,7 @@ export default function AdminDashboardPage() {
             <TableHeader className="bg-muted/30">
               <TableRow className="hover:bg-transparent border-border/50">
                 <TableHead className="font-black uppercase tracking-widest text-[10px] py-6 px-8">ID</TableHead>
-                <TableHead className="font-black uppercase tracking-widest text-[10px] py-6">User Reference</TableHead>
+                <TableHead className="font-black uppercase tracking-widest text-[10px] py-6">Patient Info</TableHead>
                 <TableHead className="font-black uppercase tracking-widest text-[10px] py-6 text-center">Risk Score</TableHead>
                 <TableHead className="font-black uppercase tracking-widest text-[10px] py-6">Status</TableHead>
                 <TableHead className="font-black uppercase tracking-widest text-[10px] py-6 px-8 text-right">Actions</TableHead>
@@ -125,9 +140,9 @@ export default function AdminDashboardPage() {
                   <TableCell className="py-6 font-bold">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-[10px] text-primary font-black">
-                        US
+                        {a.user?.name ? a.user.name.substring(0, 2).toUpperCase() : "US"}
                       </div>
-                      <span className="text-sm">{a.userId.substring(0, 8)}...</span>
+                      <span className="text-sm">{a.user?.name || "Unknown User"}</span>
                     </div>
                   </TableCell>
                   <TableCell className="py-6 text-center">
@@ -157,8 +172,13 @@ export default function AdminDashboardPage() {
                           <Eye className="w-5 h-5" />
                         </Button>
                       </Link>
-                      <Button variant="ghost" size="icon" className="rounded-xl hover:bg-muted">
-                        <MoreHorizontal className="w-5 h-5" />
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="rounded-xl hover:bg-destructive/10 hover:text-destructive"
+                        onClick={() => handleDelete(a.id)}
+                      >
+                        <Trash2 className="w-5 h-5" />
                       </Button>
                     </div>
                   </TableCell>

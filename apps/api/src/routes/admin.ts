@@ -24,8 +24,11 @@ router.get('/stats', async (req, res) => {
       limit: 10,
       orderBy: [desc(assessments.createdAt)],
       with: {
-        // Need to set up relations in Drizzle schema for this to work
-        // user: true,
+        user: {
+          columns: {
+            name: true,
+          }
+        }
       },
     });
 
