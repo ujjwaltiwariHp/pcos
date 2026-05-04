@@ -22,7 +22,11 @@ export default function AdminLayout({
   useEffect(() => {
     const checkAdmin = async () => {
       try {
-        const res = await fetch(`${API_URL}/auth/me`, { credentials: 'include' });
+        const token = localStorage.getItem('token');
+        const res = await fetch(`${API_URL}/auth/me`, { 
+          credentials: 'include',
+          headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+        });
         const data = await res.json();
         if (!res.ok || data.user.role !== 'admin') {
           toast.error("Unauthorized: Admin access required");

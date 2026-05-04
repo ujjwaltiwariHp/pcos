@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { API_URL } from '@/lib/api';
+import { API_URL, fetchApi } from '@/lib/api';
 import { PlusCircle, History, Activity, TrendingUp, Heart, Calendar, ShieldCheck, ChevronRight, Eye, MoreHorizontal } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
@@ -39,34 +39,25 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [assessRes, userRes] = await Promise.all([
-          fetch(`${API_URL}/assessments`, { 
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include'
-          }),
-          fetch(`${API_URL}/auth/me`, { 
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include'
-          }),
+        const [assessData, userData] = await Promise.all([
+          fetchApi('/assessments'),
+          fetchApi('/auth/me')
         ]);
-
-        const assessData = await assessRes.json();
-        const userData = await userRes.json();
-
-        if (!assessRes.ok) throw new Error(assessData.message);
-        if (!userRes.ok) throw new Error(userData.message);
 
         setAssessments(assessData.assessments);
         setUser(userData.user);
       } catch (error: any) {
         toast.error(error.message);
+        if (error.message === 'Authentication required') {
+          router.push('/login');
+        }
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [router]);
 
   if (isLoading) {
     return (

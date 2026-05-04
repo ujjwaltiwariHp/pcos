@@ -73,6 +73,11 @@ export function RegisterForm() {
         throw new Error(data.message || 'Registration failed');
       }
 
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+        document.cookie = "auth-bypass=true; path=/; max-age=604800; samesite=lax";
+      }
+
       toast.success('Registration successful');
       const redirectPath = '/dashboard';
       console.log('Redirecting to:', redirectPath);

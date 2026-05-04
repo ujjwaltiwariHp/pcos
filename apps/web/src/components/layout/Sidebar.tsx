@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { LayoutDashboard, ClipboardCheck, FileText, User, LogOut, HeartPulse, ShieldCheck, Users, BarChart3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { API_URL } from "@/lib/api";
+import { toast } from "sonner";
 
 const userNavItems = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -23,24 +24,19 @@ const adminNavItems = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   const isAdmin = pathname.startsWith("/admin");
   const navItems = isAdmin ? adminNavItems : userNavItems;
 
   const handleLogout = async () => {
     try {
-      const response = await fetch(`${API_URL}/auth/logout`, {
-        method: "POST",
-        credentials: "include",
-      });
-      if (response.ok) {
-        window.location.href = "/login";
-      } else {
-        throw new Error("Logout failed");
-      }
+      await fetch(`${API_URL}/auth/logout`, { method: 'POST', credentials: 'include' });
+      localStorage.removeItem('token');
+      document.cookie = "auth-bypass=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      router.push('/login');
+      toast.success('Logged out successfully');
     } catch (error) {
-      console.error(error);
-      // Fallback
-      window.location.href = "/login";
+      toast.error('Failed to logout');
     }
   };
 

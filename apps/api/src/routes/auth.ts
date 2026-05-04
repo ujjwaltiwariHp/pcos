@@ -60,6 +60,7 @@ router.post('/register', async (req, res) => {
         email: newUser.email,
         role: newUser.role,
       },
+      token,
     });
   } catch (error: any) {
     if (error instanceof z.ZodError) {
@@ -102,6 +103,7 @@ router.post('/login', async (req, res) => {
         email: user.email,
         role: user.role,
       },
+      token,
     });
   } catch (error: any) {
     if (error instanceof z.ZodError) {

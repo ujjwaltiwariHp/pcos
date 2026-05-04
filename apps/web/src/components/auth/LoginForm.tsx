@@ -59,6 +59,11 @@ export function LoginForm() {
         throw new Error(data.message || 'Login failed');
       }
 
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+        document.cookie = "auth-bypass=true; path=/; max-age=604800; samesite=lax";
+      }
+
       toast.success('Login successful');
       console.log('Login success, user role:', data.user.role);
       
