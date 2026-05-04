@@ -41,8 +41,13 @@ No markdown, no preamble, no explanation. Only the JSON object.`;
 ${JSON.stringify(data, null, 2)}`;
 
   try {
+    if (!process.env.ANTHROPIC_API_KEY) {
+      console.warn('ANTHROPIC_API_KEY is missing. Using heuristic fallback for analysis.');
+      return calculateHeuristicAnalysis(data);
+    }
+
     const response = await anthropic.messages.create({
-      model: 'claude-3-5-sonnet-20240620', // Latest stable
+      model: 'claude-3-5-sonnet-20240620',
       max_tokens: 1024,
       system: systemPrompt,
       messages: [{ role: 'user', content: userPrompt }],
@@ -57,7 +62,51 @@ ${JSON.stringify(data, null, 2)}`;
     return aiAnalysisSchema.parse(result);
   } catch (error) {
     console.error('AI Analysis Error:', error);
-    // Fallback or rethrow
-    throw new Error('Failed to analyze assessment data');
+    // Fallback to heuristic analysis if AI fails
+    console.log('Falling back to heuristic analysis...');
+    return calculateHeuristicAnalysis(data);
   }
+};
+
+const calculateHeuristicAnalysis = (data: any): AIAnalysis => {
+  // Simple heuristic for PCOS risk
+  let score = 20; // Base score
+  
+  // BMI Factor
+  if (data.personalData.bmi > 25) score += 15;
+  if (data.personalData.bmi > 30) score += 15;
+  
+  // Symptoms Factor
+  const symptomCount = Object.values(data.symptomsData).filter(v => v === true).length;
+  score += symptomCount * 8;
+  
+  // Lifestyle Factor
+  if (data.lifestyleData.stress > 7) score += 10;
+  if (data.lifestyleData.sleep < 6) score += 5;
+  if (data.lifestyleData.diet < 5) score += 5;
+
+  score = Math.min(score, 95);
+  
+  let level: 'low' | 'moderate' | 'high' = 'low';
+  if (score >= 70) level = 'high';
+  else if (score >= 40) level = 'moderate';
+
+  const factors = [];
+  if (data.personalData.bmi > 25) factors.push('Elevated BMI');
+  if (symptomCount > 3) factors.push('Multiple reported clinical symptoms');
+  if (data.lifestyleData.stress > 7) factors.push('High physiological stress markers');
+
+  return {
+    riskScore: score,
+    riskLevel: level,
+    keyFactors: factors.length > 0 ? factors : ['General metabolic profile'],
+    recommendations: [
+      'Maintain a balanced, low-glycemic diet.',
+      'Engage in 150 minutes of moderate activity weekly.',
+      'Monitor hormonal cycles and symptom frequency.'
+    ],
+    shouldSeeDoctor: score >= 40,
+    urgency: score >= 70 ? 'within 1 month' : (score >= 40 ? 'within 3 months' : 'routine'),
+    disclaimer: 'This assessment is a heuristic analysis provided as a fallback and does not constitute medical diagnosis.'
+  };
 };

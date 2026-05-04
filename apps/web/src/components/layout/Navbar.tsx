@@ -1,6 +1,7 @@
 "use client";
 
-import { Bell, Search, Menu, UserCircle } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Bell, Search, Menu, UserCircle, LogOut, Shield, Calendar, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { 
@@ -11,59 +12,120 @@ import {
   DropdownMenuSeparator, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { fetchApi } from "@/lib/api";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
   const pathname = usePathname();
+  const router = useRouter();
   const pageTitle = pathname.split("/").filter(Boolean).pop() || "Dashboard";
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const data = await fetchApi('/auth/me');
+        setUser(data.user);
+      } catch (err) {
+        // Silently fail or redirect if needed
+      }
+    };
+    loadUser();
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    document.cookie = "auth-bypass=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    toast.success("Logged out successfully");
+    window.location.href = "/login";
+  };
 
   return (
-    <header className="h-20 border-b border-border bg-background/80 backdrop-blur-md sticky top-0 z-40 flex items-center justify-between px-8">
+    <header className="h-20 border-b border-white/5 bg-background/80 backdrop-blur-xl sticky top-0 z-40 flex items-center justify-between px-4 md:px-8">
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" className="lg:hidden" onClick={onMenuClick}>
+        <Button variant="ghost" size="icon" className="lg:hidden hover:bg-white/5" onClick={onMenuClick}>
           <Menu className="w-6 h-6" />
         </Button>
-        <h2 className="text-xl font-bold capitalize tracking-tight">
+        <h2 className="text-xl font-black capitalize tracking-tight hidden sm:block">
           {pageTitle}
         </h2>
       </div>
 
       <div className="hidden md:flex items-center gap-6 flex-1 max-w-md mx-8">
         <div className="relative w-full group">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
           <Input 
             placeholder="Search health records..." 
-            className="pl-10 bg-muted/50 border-none focus-visible:ring-1 focus-visible:ring-primary/50 transition-all"
+            className="pl-12 h-12 bg-white/5 border-white/10 rounded-2xl focus:ring-primary/20 transition-all"
           />
         </div>
       </div>
 
-      <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" className="relative hover:bg-muted/50 rounded-full">
+      <div className="flex items-center gap-2 md:gap-4">
+        <Button variant="ghost" size="icon" className="relative hover:bg-white/5 rounded-full">
           <Bell className="w-5 h-5 text-muted-foreground" />
-          <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-primary rounded-full border-2 border-background" />
+          <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full border-2 border-[#06070B]" />
         </Button>
 
         <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Button variant="ghost" className="gap-3 pl-2 pr-4 py-2 hover:bg-muted/50 rounded-full transition-all">
-              <div className="w-9 h-9 bg-primary/10 rounded-full flex items-center justify-center border border-primary/20">
-                <UserCircle className="w-6 h-6 text-primary" />
+          <DropdownMenuTrigger asChild>
+            <button className="flex items-center gap-3 pl-2 pr-2 md:pr-4 py-1.5 hover:bg-white/5 rounded-full transition-all outline-none group border border-transparent hover:border-white/5">
+              <div className="w-9 h-9 bg-primary/10 rounded-full flex items-center justify-center border border-primary/20 group-hover:scale-105 transition-transform">
+                <User className="w-5 h-5 text-primary" />
               </div>
-              <div className="hidden sm:block text-left">
-                <p className="text-sm font-semibold leading-none">Ujjwal Tiwari</p>
-                <p className="text-[11px] text-muted-foreground mt-1 uppercase font-bold tracking-tighter">Premium User</p>
+              <div className="hidden md:block text-left">
+                <p className="text-sm font-black leading-none text-white/90">{user?.name || "Loading..."}</p>
+                <p className="text-[10px] text-muted-foreground mt-1 uppercase font-black tracking-widest">{user?.role || "User"} Account</p>
               </div>
-            </Button>
+            </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56 glass">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="focus:bg-primary/10">Profile Settings</DropdownMenuItem>
-            <DropdownMenuItem className="focus:bg-primary/10">Health History</DropdownMenuItem>
-            <DropdownMenuItem className="focus:bg-primary/10">Subscriptions</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive focus:bg-destructive/10">Log out</DropdownMenuItem>
+          <DropdownMenuContent align="end" className="w-72 glass-darker rounded-[2rem] border-white/10 p-2 shadow-2xl mt-2 animate-in fade-in zoom-in-95 duration-200">
+            <div className="p-4 flex flex-col items-center text-center gap-3">
+              <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-2xl font-black text-primary">
+                {user?.name?.[0] || user?.email?.[0]?.toUpperCase() || "U"}
+              </div>
+              <div className="space-y-1">
+                <h4 className="font-black text-white text-lg">{user?.name}</h4>
+                <p className="text-xs font-medium text-muted-foreground">{user?.email}</p>
+              </div>
+              <div className="flex items-center gap-2 px-3 py-1 bg-emerald-500/10 rounded-full border border-emerald-500/20">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[10px] font-black uppercase tracking-widest text-emerald-500">Active Status</span>
+              </div>
+            </div>
+            
+            <DropdownMenuSeparator className="bg-white/5 mx-2" />
+            
+            <div className="p-2 grid gap-1">
+              <DropdownMenuItem className="rounded-xl py-3 px-4 gap-3 cursor-pointer hover:bg-white/5 focus:bg-white/5 transition-colors">
+                <UserCircle className="w-4 h-4 text-muted-foreground" />
+                <span className="text-sm font-bold">Profile Details</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="rounded-xl py-3 px-4 gap-3 cursor-pointer hover:bg-white/5 focus:bg-white/5 transition-colors">
+                <Shield className="w-4 h-4 text-muted-foreground" />
+                <span className="text-sm font-bold">Account Security</span>
+              </DropdownMenuItem>
+              <div className="px-4 py-2 mt-2">
+                <p className="text-[9px] font-black text-muted-foreground/40 uppercase tracking-widest flex items-center gap-2">
+                  <Calendar className="w-3 h-3" />
+                  Joined {user?.createdAt ? new Date(user.createdAt).toLocaleDateString(undefined, { month: 'long', year: 'numeric' }) : "N/A"}
+                </p>
+              </div>
+            </div>
+            
+            <DropdownMenuSeparator className="bg-white/5 mx-2" />
+            
+            <div className="p-2">
+              <DropdownMenuItem 
+                onClick={handleLogout}
+                className="rounded-xl py-3 px-4 gap-3 cursor-pointer text-destructive hover:bg-destructive/10 focus:bg-destructive/10 transition-colors"
+              >
+                <LogOut className="w-4 h-4" />
+                <span className="text-sm font-black uppercase tracking-widest">Sign Out</span>
+              </DropdownMenuItem>
+            </div>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

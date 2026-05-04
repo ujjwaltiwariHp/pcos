@@ -11,23 +11,23 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <div className="w-full animate-in fade-in zoom-in-95 duration-1000 ease-out">
+    <div className="w-full max-w-[480px] mx-auto animate-in fade-in zoom-in-95 duration-1000 ease-out px-4 py-10 md:py-20">
       <div className="glass rounded-[3rem] p-8 md:p-12 shadow-[0_50px_100px_rgba(0,0,0,0.4)] border border-white/10 relative overflow-hidden group">
         <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-3xl rounded-full -mr-16 -mt-16 pointer-events-none" />
         
         <CardHeader className="p-0 mb-10 space-y-3 text-center">
-          <CardTitle className="text-4xl font-black tracking-tight text-white">Welcome Back</CardTitle>
-          <CardDescription className="text-muted-foreground font-medium text-base">
+          <CardTitle className="text-3xl md:text-4xl font-black tracking-tight text-white">Welcome Back</CardTitle>
+          <CardDescription className="text-muted-foreground font-medium text-sm md:text-base">
             Sign in to access your health dashboard
           </CardDescription>
         </CardHeader>
         
         <CardContent className="p-0">
           <Tabs defaultValue="login" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 p-1 bg-white/[0.03] rounded-[1.25rem] mb-12 border border-white/5 backdrop-blur-xl">
+            <TabsList className="flex w-full p-1.5 bg-white/[0.03] rounded-[1.5rem] mb-10 border border-white/5 backdrop-blur-xl">
               <TabsTrigger 
                 value="login" 
-                className="rounded-[1rem] py-3.5 text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-500
+                className="flex-1 rounded-[1.1rem] py-3 text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-500
                 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-[0_8px_20px_rgba(var(--primary-rgb),0.3)]
                 data-[state=inactive]:hover:bg-white/5 data-[state=inactive]:text-muted-foreground/60"
               >
@@ -35,7 +35,7 @@ export default function LoginPage() {
               </TabsTrigger>
               <TabsTrigger 
                 value="register" 
-                className="rounded-[1rem] py-3.5 text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-500
+                className="flex-1 rounded-[1.1rem] py-3 text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-500
                 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-[0_8px_20px_rgba(var(--primary-rgb),0.3)]
                 data-[state=inactive]:hover:bg-white/5 data-[state=inactive]:text-muted-foreground/60"
               >
@@ -54,8 +54,8 @@ export default function LoginPage() {
             </div>
           </Tabs>
           
-          <div className="mt-12 pt-8 border-t border-white/5 text-center">
-            <p className="text-[10px] text-muted-foreground/30 leading-relaxed max-w-[280px] mx-auto uppercase tracking-[0.3em] font-black">
+          <div className="mt-10 pt-8 border-t border-white/5 text-center">
+            <p className="text-[9px] md:text-[10px] text-muted-foreground/30 leading-relaxed max-w-[240px] mx-auto uppercase tracking-[0.3em] font-black">
               Clinical-grade AI analysis and hormonal health monitoring.
             </p>
           </div>

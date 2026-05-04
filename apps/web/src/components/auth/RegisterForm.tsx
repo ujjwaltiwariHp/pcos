@@ -29,17 +29,12 @@ const formSchema = z.object({
   password: z.string().min(6, {
     message: 'Password must be at least 6 characters.',
   }),
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
 });
 
 export function RegisterForm() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,7 +42,6 @@ export function RegisterForm() {
       name: '',
       email: '',
       password: '',
-      confirmPassword: '',
     },
   });
 
@@ -60,11 +54,7 @@ export function RegisterForm() {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({
-          name: values.name,
-          email: values.email,
-          password: values.password,
-        }),
+        body: JSON.stringify(values),
       });
 
       const data = await response.json();
@@ -80,10 +70,8 @@ export function RegisterForm() {
 
       toast.success('Registration successful');
       const redirectPath = '/dashboard';
-      console.log('Redirecting to:', redirectPath);
       window.location.replace(redirectPath);
     } catch (error: any) {
-      console.error('Registration error:', error);
       toast.error(error.message);
     } finally {
       setIsLoading(false);
@@ -98,12 +86,12 @@ export function RegisterForm() {
           name="name"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">Full Name</FormLabel>
+              <FormLabel className="text-xs font-black uppercase tracking-widest text-muted-foreground/80 ml-1">Full Name</FormLabel>
               <FormControl>
                 <Input 
                   placeholder="John Doe" 
                   {...field} 
-                  className="h-14 bg-white/5 border-white/10 rounded-2xl focus:ring-primary/20 transition-all"
+                  className="h-14 bg-white/[0.03] border-white/10 rounded-2xl focus:ring-primary/20 hover:bg-white/[0.05] transition-all"
                 />
               </FormControl>
               <FormMessage className="text-[10px] font-bold uppercase" />
@@ -115,12 +103,12 @@ export function RegisterForm() {
           name="email"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">Email Address</FormLabel>
+              <FormLabel className="text-xs font-black uppercase tracking-widest text-muted-foreground/80 ml-1">Email Address</FormLabel>
               <FormControl>
                 <Input 
                   placeholder="name@example.com" 
                   {...field} 
-                  className="h-14 bg-white/5 border-white/10 rounded-2xl focus:ring-primary/20 transition-all"
+                  className="h-14 bg-white/[0.03] border-white/10 rounded-2xl focus:ring-primary/20 hover:bg-white/[0.05] transition-all"
                 />
               </FormControl>
               <FormMessage className="text-[10px] font-bold uppercase" />
@@ -132,48 +120,21 @@ export function RegisterForm() {
           name="password"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">Secure Password</FormLabel>
+              <FormLabel className="text-xs font-black uppercase tracking-widest text-muted-foreground/80 ml-1">Secure Password</FormLabel>
               <FormControl>
                 <div className="relative group">
                   <Input 
                     type={showPassword ? "text" : "password"} 
                     placeholder="••••••••" 
                     {...field} 
-                    className="h-14 bg-white/5 border-white/10 rounded-2xl focus:ring-primary/20 transition-all pr-12"
+                    className="h-14 bg-white/[0.03] border-white/10 rounded-2xl focus:ring-primary/20 hover:bg-white/[0.05] transition-all pr-14"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-white transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-xl text-muted-foreground/40 hover:text-white hover:bg-white/5 transition-all"
                   >
-                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                  </button>
-                </div>
-              </FormControl>
-              <FormMessage className="text-[10px] font-bold uppercase" />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="confirmPassword"
-          render={({ field }) => (
-            <FormItem className="space-y-2">
-              <FormLabel className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">Confirm Password</FormLabel>
-              <FormControl>
-                <div className="relative group">
-                  <Input 
-                    type={showConfirmPassword ? "text" : "password"} 
-                    placeholder="••••••••" 
-                    {...field} 
-                    className="h-14 bg-white/5 border-white/10 rounded-2xl focus:ring-primary/20 transition-all pr-12"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-white transition-colors"
-                  >
-                    {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
               </FormControl>
@@ -183,7 +144,7 @@ export function RegisterForm() {
         />
         <Button 
           type="submit" 
-          className="w-full h-14 rounded-2xl bg-primary hover:bg-primary/90 text-primary-foreground font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 transition-all active:scale-[0.98]" 
+          className="w-full h-16 rounded-2xl bg-primary hover:bg-primary/90 text-primary-foreground font-black text-xs uppercase tracking-widest shadow-2xl shadow-primary/20 transition-all active:scale-[0.98] mt-4" 
           disabled={isLoading}
         >
           {isLoading ? 'Creating Identity...' : 'Register as New Patient'}

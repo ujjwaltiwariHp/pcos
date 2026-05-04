@@ -177,4 +177,14 @@
     transform: scale(1.02);
     background-color: oklch(var(--card) / 70%);
   }
+
+  /* Fix for browser autofill background */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px oklch(0.16 0.03 250) inset !important;
+    -webkit-text-fill-color: white !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
 }

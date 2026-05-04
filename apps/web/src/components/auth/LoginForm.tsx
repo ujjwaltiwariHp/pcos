@@ -89,12 +89,12 @@ export function LoginForm() {
           name="email"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">Email Address</FormLabel>
+              <FormLabel className="text-xs font-black uppercase tracking-widest text-muted-foreground/80 ml-1">Email Address</FormLabel>
               <FormControl>
                 <Input 
                   placeholder="name@example.com" 
                   {...field} 
-                  className="h-14 bg-white/5 border-white/10 rounded-2xl focus:ring-primary/20 transition-all"
+                  className="h-14 bg-white/[0.03] border-white/10 rounded-2xl focus:ring-primary/20 hover:bg-white/[0.05] transition-all"
                 />
               </FormControl>
               <FormMessage className="text-[10px] font-bold uppercase" />
@@ -106,21 +106,21 @@ export function LoginForm() {
           name="password"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">Password</FormLabel>
+              <FormLabel className="text-xs font-black uppercase tracking-widest text-muted-foreground/80 ml-1">Password</FormLabel>
               <FormControl>
                 <div className="relative group">
                   <Input 
                     type={showPassword ? "text" : "password"} 
                     placeholder="••••••••" 
                     {...field} 
-                    className="h-14 bg-white/5 border-white/10 rounded-2xl focus:ring-primary/20 transition-all pr-12"
+                    className="h-14 bg-white/[0.03] border-white/10 rounded-2xl focus:ring-primary/20 hover:bg-white/[0.05] transition-all pr-14"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-white transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-xl text-muted-foreground/40 hover:text-white hover:bg-white/5 transition-all"
                   >
-                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
               </FormControl>
@@ -130,7 +130,7 @@ export function LoginForm() {
         />
         <Button 
           type="submit" 
-          className="w-full h-14 rounded-2xl bg-primary hover:bg-primary/90 text-primary-foreground font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 transition-all active:scale-[0.98]" 
+          className="w-full h-16 rounded-2xl bg-primary hover:bg-primary/90 text-primary-foreground font-black text-xs uppercase tracking-widest shadow-2xl shadow-primary/20 transition-all active:scale-[0.98] mt-4" 
           disabled={isLoading}
         >
           {isLoading ? 'Processing Access...' : 'Sign In to Portal'}
