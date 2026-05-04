@@ -31,6 +31,25 @@ apiRouter.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
+// 404 Handler for undefined routes
+app.use((req, res, next) => {
+  res.status(404).json({
+    success: false,
+    message: 'Endpoint not found',
+    path: req.originalUrl
+  });
+});
+
+// Global Error Handler
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error('Global Error:', err);
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || 'Internal Server Error',
+    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

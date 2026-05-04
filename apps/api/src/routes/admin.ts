@@ -73,7 +73,7 @@ router.get('/assessments/export', async (req, res) => {
 
     // Simple CSV generation
     const headers = ['ID', 'User ID', 'Risk Score', 'Risk Level', 'Created At'];
-    const rows = allAssessments.map(a => [
+    const rows = allAssessments.map((a: any) => [
       a.id,
       a.userId,
       a.riskScore,
