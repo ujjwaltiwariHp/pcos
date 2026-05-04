@@ -3,6 +3,7 @@ import { db, users, assessments } from 'db';
 import { eq, desc, sql, count } from 'drizzle-orm';
 import { authenticate } from '../middleware/authenticate';
 import { authorize } from '../middleware/authorize';
+import { logAudit } from '../middleware/auditLogger';
 
 const router = Router();
 
@@ -53,7 +54,7 @@ router.get('/users', async (req, res) => {
   }
 });
 
-router.patch('/users/:id', async (req, res) => {
+router.patch('/users/:id', logAudit('UPDATE', 'USER'), async (req, res) => {
   try {
     const { id } = req.params;
     const { role, name, email } = req.body;
@@ -79,7 +80,7 @@ router.patch('/users/:id', async (req, res) => {
   }
 });
 
-router.delete('/users/:id', async (req, res) => {
+router.delete('/users/:id', logAudit('DELETE', 'USER'), async (req, res) => {
   try {
     const { id } = req.params;
     
@@ -110,7 +111,7 @@ router.get('/assessments', async (req, res) => {
   }
 });
 
-router.delete('/assessments/:id', async (req, res) => {
+router.delete('/assessments/:id', logAudit('DELETE', 'ASSESSMENT'), async (req, res) => {
   try {
     const { id } = req.params;
     

@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 interface AssessmentState {
   step: number;
@@ -42,12 +43,20 @@ const initialState = {
   },
 };
 
-export const useAssessmentStore = create<AssessmentState>((set) => ({
-  ...initialState,
-  setStep: (step) => set({ step }),
-  setPersonalData: (data) => set((state) => ({ personalData: { ...state.personalData, ...data } })),
-  setSymptomsData: (data) => set({ symptomsData: data }),
-  setHormonalData: (data) => set({ hormonalData: data }),
-  setLifestyleData: (data) => set((state) => ({ lifestyleData: { ...state.lifestyleData, ...data } })),
-  reset: () => set(initialState),
-}));
+export const useAssessmentStore = create<AssessmentState>()(
+  persist(
+    (set) => ({
+      ...initialState,
+      setStep: (step) => set({ step }),
+      setPersonalData: (data) => set((state) => ({ personalData: { ...state.personalData, ...data } })),
+      setSymptomsData: (data) => set({ symptomsData: data }),
+      setHormonalData: (data) => set({ hormonalData: data }),
+      setLifestyleData: (data) => set((state) => ({ lifestyleData: { ...state.lifestyleData, ...data } })),
+      reset: () => set(initialState),
+    }),
+    {
+      name: 'pcos-assessment-storage',
+      storage: createJSONStorage(() => localStorage),
+    }
+  )
+);

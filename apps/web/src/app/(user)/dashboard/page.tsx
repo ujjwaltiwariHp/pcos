@@ -10,6 +10,17 @@ import { PlusCircle, History, Activity, TrendingUp, Heart, Calendar, ShieldCheck
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { 
+  LineChart, 
+  Line, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer,
+  AreaChart,
+  Area
+} from 'recharts';
+import { 
   Table, 
   TableBody, 
   TableCell, 
@@ -17,6 +28,7 @@ import {
   TableHeader, 
   TableRow 
 } from '@/components/ui/table';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -58,13 +70,30 @@ export default function DashboardPage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="flex flex-col items-center gap-4">
-          <div className="relative w-12 h-12">
-            <div className="absolute inset-0 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
-            <Heart className="absolute inset-0 m-auto text-primary w-5 h-5 animate-pulse" />
+      <div className="space-y-10 animate-in fade-in duration-500">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="space-y-4">
+            <Skeleton className="h-10 w-64" />
+            <Skeleton className="h-4 w-96" />
           </div>
-          <p className="text-sm font-bold uppercase tracking-widest text-muted-foreground animate-pulse">Syncing Health Data...</p>
+          <Skeleton className="h-14 w-48 rounded-2xl" />
+        </div>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[1, 2, 3, 4].map(i => (
+            <Skeleton key={i} className="h-32 rounded-[2rem]" />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-6">
+            <Skeleton className="h-8 w-48" />
+            <Skeleton className="h-[400px] rounded-[2rem]" />
+          </div>
+          <div className="space-y-8">
+            <Skeleton className="h-[300px] rounded-[2rem]" />
+            <Skeleton className="h-[200px] rounded-[2rem]" />
+          </div>
         </div>
       </div>
     );
@@ -141,6 +170,70 @@ export default function DashboardPage() {
           </div>
         ))}
       </div>
+
+      {/* Health Trend Chart */}
+      {assessments.length > 1 && (
+        <div className="glass rounded-[2.5rem] border border-white/5 p-8 shadow-2xl relative overflow-hidden">
+          <div className="flex items-center justify-between mb-8">
+            <div className="space-y-1">
+              <h3 className="text-xl font-bold tracking-tight">Risk Trend Analysis</h3>
+              <p className="text-xs text-muted-foreground font-medium uppercase tracking-widest">Hormonal Health Progression</p>
+            </div>
+            <Badge variant="outline" className="border-primary/20 text-primary bg-primary/5">AI Insight</Badge>
+          </div>
+          <div className="h-[300px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart
+                data={assessments.slice().reverse().map(a => ({
+                  date: new Date(a.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
+                  score: a.riskScore
+                }))}
+              >
+                <defs>
+                  <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="var(--primary)" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" vertical={false} />
+                <XAxis 
+                  dataKey="date" 
+                  stroke="#ffffff20" 
+                  fontSize={10} 
+                  tickLine={false} 
+                  axisLine={false} 
+                  dy={10}
+                />
+                <YAxis 
+                  stroke="#ffffff20" 
+                  fontSize={10} 
+                  tickLine={false} 
+                  axisLine={false}
+                  domain={[0, 100]}
+                />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: '#0A0D14', 
+                    border: '1px solid #ffffff10', 
+                    borderRadius: '12px',
+                    fontSize: '12px'
+                  }}
+                  itemStyle={{ color: 'white', fontWeight: 'bold' }}
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="score" 
+                  stroke="var(--primary)" 
+                  strokeWidth={4}
+                  fillOpacity={1} 
+                  fill="url(#colorScore)" 
+                  animationDuration={2000}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Assessment History Table */}

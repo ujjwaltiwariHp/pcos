@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import { API_URL } from "@/lib/api";
 import { toast } from "sonner";
 
+import { StarryBackground } from "@/components/ui/starry-background";
+
 export default function AdminLayout({
   children,
 }: {
@@ -37,7 +39,7 @@ export default function AdminLayout({
 
   if (isVerifying) {
     return (
-      <div className="h-screen w-screen flex items-center justify-center bg-[#090A0F]">
+      <div className="h-screen w-screen flex items-center justify-center bg-[#06070B]">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
           <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground animate-pulse">Verifying Credentials...</p>
@@ -47,9 +49,15 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
+    <div className="flex h-screen overflow-hidden bg-[#06070B] text-white relative">
+      <StarryBackground />
+      
+      {/* Dynamic Glow Orbs */}
+      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-[10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/5 blur-[100px] rounded-full pointer-events-none" />
+
       {/* Sidebar - Desktop */}
-      <aside className="hidden lg:flex flex-shrink-0">
+      <aside className="hidden lg:flex flex-shrink-0 relative z-50">
         <Sidebar />
       </aside>
 

@@ -3,6 +3,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
+import { rateLimit } from 'express-rate-limit';
 import authRoutes from './routes/auth';
 import assessmentRoutes from './routes/assessments';
 import adminRoutes from './routes/admin';
@@ -11,6 +12,17 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 4000;
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'Too many requests from this IP, please try again after 15 minutes' }
+});
+
+app.use(limiter);
 
 const allowedOrigins = [
   'http://localhost:3000',

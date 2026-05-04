@@ -14,15 +14,34 @@ const userNavItems = [
 ];
 
 const adminNavItems = [
-  { name: "Admin Home", href: "/admin/dashboard", icon: ShieldCheck },
-  { name: "Users", href: "/admin/users", icon: Users },
-  { name: "Analytics", href: "/admin/analytics", icon: BarChart3 },
+  { name: "Admin Stats", href: "/admin/dashboard", icon: BarChart3 },
+  { name: "User Management", href: "/admin/users", icon: Users },
+  { name: "All Assessments", href: "/admin/assessments", icon: FileText },
+  { name: "Take Assessment", href: "/assessment", icon: ClipboardCheck },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
   const navItems = isAdmin ? adminNavItems : userNavItems;
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(`${API_URL}/auth/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+      if (response.ok) {
+        window.location.href = "/login";
+      } else {
+        throw new Error("Logout failed");
+      }
+    } catch (error) {
+      console.error(error);
+      // Fallback
+      window.location.href = "/login";
+    }
+  };
 
   return (
     <div className="flex flex-col h-full bg-sidebar text-sidebar-foreground border-r border-sidebar-border w-64 transition-all duration-300">
@@ -60,7 +79,14 @@ export function Sidebar() {
       </nav>
 
       <div className="p-4 mt-auto border-t border-sidebar-border space-y-2">
-        {!isAdmin && (
+        {isAdmin ? (
+          <Link href="/dashboard">
+            <Button variant="ghost" className="w-full justify-start gap-3 px-4 py-3 rounded-xl text-[10px] uppercase font-black tracking-widest text-muted-foreground/40 hover:text-primary hover:bg-primary/5 transition-all duration-200">
+               <LayoutDashboard className="w-4 h-4" />
+               Switch to User View
+            </Button>
+          </Link>
+        ) : (
           <Link href="/admin/dashboard">
             <Button variant="ghost" className="w-full justify-start gap-3 px-4 py-3 rounded-xl text-[10px] uppercase font-black tracking-widest text-muted-foreground/40 hover:text-primary hover:bg-primary/5 transition-all duration-200">
                <ShieldCheck className="w-4 h-4" />
@@ -72,10 +98,7 @@ export function Sidebar() {
         <Button 
           variant="ghost" 
           className="w-full justify-start gap-3 px-4 py-6 rounded-xl text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all duration-200"
-          onClick={() => {
-             // Handle logout logic here or redirect
-             window.location.href = "/login";
-          }}
+          onClick={handleLogout}
         >
           <LogOut className="w-5 h-5" />
           <span className="font-medium">Logout</span>

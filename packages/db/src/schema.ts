@@ -26,3 +26,34 @@ export const assessments = pgTable('assessments', {
   riskLevel: riskLevelEnum('risk_level'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
+
+export const auditLogs = pgTable('audit_logs', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }),
+  action: varchar('action', { length: 255 }).notNull(),
+  resourceType: varchar('resource_type', { length: 255 }).notNull(),
+  resourceId: varchar('resource_id', { length: 255 }),
+  details: jsonb('details'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+})
+
+import { relations } from 'drizzle-orm'
+
+export const usersRelations = relations(users, ({ many }) => ({
+  assessments: many(assessments),
+  auditLogs: many(auditLogs),
+}))
+
+export const assessmentsRelations = relations(assessments, ({ one }) => ({
+  user: one(users, {
+    fields: [assessments.userId],
+    references: [users.id],
+  }),
+}))
+
+export const auditLogsRelations = relations(auditLogs, ({ one }) => ({
+  user: one(users, {
+    fields: [auditLogs.userId],
+    references: [users.id],
+  }),
+}))

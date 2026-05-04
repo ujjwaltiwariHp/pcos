@@ -5,6 +5,8 @@ import { Sidebar } from "@/components/layout/Sidebar";
 import { Navbar } from "@/components/layout/Navbar";
 import { cn } from "@/lib/utils";
 
+import { StarryBackground } from "@/components/ui/starry-background";
+
 export default function UserLayout({
   children,
 }: {
@@ -13,9 +15,15 @@ export default function UserLayout({
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
+    <div className="flex h-screen overflow-hidden bg-[#06070B] text-white relative">
+      <StarryBackground />
+      
+      {/* Dynamic Glow Orbs */}
+      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-[10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/5 blur-[100px] rounded-full pointer-events-none" />
+
       {/* Sidebar - Desktop */}
-      <aside className="hidden lg:flex flex-shrink-0">
+      <aside className="hidden lg:flex flex-shrink-0 relative z-50">
         <Sidebar />
       </aside>
 
