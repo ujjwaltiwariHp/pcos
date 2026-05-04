@@ -10,11 +10,8 @@
     "ignoreDeprecations": "6.0",
     "outDir": "./dist",
     "rootDir": "../../",
-    "baseUrl": ".",
-    "paths": {
-      "db": ["../../packages/db/src"]
-    }
+    "baseUrl": "."
   },
-  "include": ["src/**/*", "../../packages/db/src/**/*"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
